@@ -1,0 +1,73 @@
+======
+symbol
+======
+
+:a
+:a=
+:_a
+:unquoted_symbol
+:question?
+:exclamation!
+:あ
+:"ok yes!!"
+:"this one has \" a quote"
+:🦉❓
+:🦉=
+
+---
+
+(program
+  (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol)
+  (symbol) (symbol) (symbol) (symbol)
+)
+
+======
+operator symbols
+======
+
+:+
+:-
+:*
+:/
+:%
+:&
+:|
+:^
+:**
+:>>
+:<<
+:==
+:!=
+:<
+:<=
+:>
+:>=
+:<=>
+:===
+:[]
+:[]?
+:[]=
+:!
+:~
+:!~
+:=~
+
+----
+
+(program
+  (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol)
+  (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol)
+  (symbol) (symbol) (symbol) (symbol) (symbol) (symbol) (symbol)
+  (symbol) (symbol) (symbol) (symbol) (symbol)
+)
+
+======
+string
+======
+
+"hello world"
+"hello \" world\"
+
+---
+
+(program (string) (string))
