@@ -1,0 +1,16 @@
+=======
+comment
+=======
+
+# this is a comment
+"test" # this is another comment
+42 # a comment "with stuff in it"
+
+---
+
+(program
+ (comment)
+ (string) (comment)
+ (integer) (comment)
+)
+

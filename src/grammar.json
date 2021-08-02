@@ -641,6 +641,10 @@
         }
       ]
     },
+    "comment": {
+      "type": "PATTERN",
+      "value": "#.*[^\\n]"
+    },
     "_operator": {
       "type": "CHOICE",
       "members": [
@@ -755,6 +759,10 @@
     {
       "type": "PATTERN",
       "value": "\\s"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "comment"
     }
   ],
   "conflicts": [],

@@ -9,6 +9,12 @@ const identifierRegex = /[^\x00-\x40\x5B-\x5E\x60-\x60\x7B-\x9F][^\x00-\x2F\x3A-
 module.exports = grammar({
   name: 'crystal',
 
+  // stuff that can show up anywhere
+  extras: $ => [
+    /\s/, // we have to include this, or else tree-sitter assumes we're handling whitespace all manually
+    $.comment,
+  ],
+
   rules: {
     program: $ => repeat($._statement),
 
@@ -202,6 +208,11 @@ module.exports = grammar({
       seq('`', /[^`]*/, '`'),
       seq('%x(', /[^\)]*/, ')')
     ),
+
+    /**
+	   * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/comments.html}
+	   */
+    comment: $ => /#.*[^\n]/,
 
     _operator: $ => choice( "+", "-", "*", "/", "%", "&", "|", "^", "**", ">>", "<<", "==", "!=", "<", "<=", ">", ">=", "<=>", "===", "[]", "[]?", "[]=", "!", "~", "!~", "=~",),
 
