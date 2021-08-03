@@ -12,6 +12,10 @@
           "named": true
         },
         {
+          "type": "assignment",
+          "named": true
+        },
+        {
           "type": "bool",
           "named": true
         },
@@ -63,6 +67,96 @@
     }
   },
   {
+    "type": "assignment",
+    "named": true,
+    "fields": {
+      "lhs": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "class_variable",
+            "named": true
+          },
+          {
+            "type": "constant",
+            "named": true
+          },
+          {
+            "type": "instance_variable",
+            "named": true
+          },
+          {
+            "type": "local_variable",
+            "named": true
+          }
+        ]
+      },
+      "rhs": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array",
+            "named": true
+          },
+          {
+            "type": "assignment",
+            "named": true
+          },
+          {
+            "type": "bool",
+            "named": true
+          },
+          {
+            "type": "char",
+            "named": true
+          },
+          {
+            "type": "commandLiteral",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "hash",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "namedTupleLiteral",
+            "named": true
+          },
+          {
+            "type": "nil",
+            "named": true
+          },
+          {
+            "type": "regex",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "symbol",
+            "named": true
+          },
+          {
+            "type": "tuple",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "bool",
     "named": true,
     "fields": {}
@@ -73,7 +167,17 @@
     "fields": {}
   },
   {
+    "type": "class_variable",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "commandLiteral",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "constant",
     "named": true,
     "fields": {}
   },
@@ -92,6 +196,10 @@
         "types": [
           {
             "type": "array",
+            "named": true
+          },
+          {
+            "type": "assignment",
             "named": true
           },
           {
@@ -150,6 +258,10 @@
         "types": [
           {
             "type": "array",
+            "named": true
+          },
+          {
+            "type": "assignment",
             "named": true
           },
           {
@@ -210,7 +322,17 @@
     "fields": {}
   },
   {
+    "type": "instance_variable",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "integer",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "local_variable",
     "named": true,
     "fields": {}
   },
@@ -238,6 +360,10 @@
         "types": [
           {
             "type": "array",
+            "named": true
+          },
+          {
+            "type": "assignment",
             "named": true
           },
           {
@@ -302,6 +428,10 @@
       "types": [
         {
           "type": "array",
+          "named": true
+        },
+        {
+          "type": "assignment",
           "named": true
         },
         {
@@ -380,6 +510,10 @@
       "types": [
         {
           "type": "array",
+          "named": true
+        },
+        {
+          "type": "assignment",
           "named": true
         },
         {
@@ -558,6 +692,10 @@
     "named": false
   },
   {
+    "type": "=",
+    "named": false
+  },
+  {
     "type": "==",
     "named": false
   },
@@ -583,6 +721,14 @@
   },
   {
     "type": ">>",
+    "named": false
+  },
+  {
+    "type": "@",
+    "named": false
+  },
+  {
+    "type": "@@",
     "named": false
   },
   {

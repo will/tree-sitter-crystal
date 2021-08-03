@@ -4,10 +4,10 @@
   "description": "Crystal grammar for tree-sitter",
   "main": "bindings/node",
   "scripts": {
-	"generate": "$(npm bin)/tree-sitter generate",
-	"pretest": "npm run generate",
+    "generate": "$(npm bin)/tree-sitter generate",
+    "pretest": "npm run generate",
     "test": "$(npm bin)/tree-sitter test",
-	"parse": "npm run generate && $(npm bin)/tree-sitter parse"
+    "parse": "npm run generate && $(npm bin)/tree-sitter parse"
   },
   "author": "Will Leinweber",
   "license": "MIT",

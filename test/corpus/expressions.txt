@@ -1,0 +1,20 @@
+==========
+assignment
+==========
+
+foo = 1
+@foo = "test"
+@@foo = [1, 2, 3]
+PI = 3.14
+foo = bar = 4
+
+---
+(program
+  (assignment lhs: (local_variable) rhs: (integer))
+  (assignment lhs: (instance_variable) rhs: (string))
+  (assignment lhs: (class_variable) rhs: (array (integer) (integer) (integer)))
+  (assignment lhs: (constant) rhs: (float))
+  (assignment lhs: (local_variable) rhs: (
+    assignment lhs: (local_variable) rhs: (integer))
+  )
+)

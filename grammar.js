@@ -39,6 +39,7 @@ module.exports = grammar({
       $.tuple                   ,
       $.namedTupleLiteral       ,
       $.commandLiteral          ,
+      $.assignment              ,
     ),
 
     identifier: $ => identifierRegex,
@@ -213,6 +214,43 @@ module.exports = grammar({
 	   * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/comments.html}
 	   */
     comment: $ => /#.*[^\n]/,
+
+    /**
+     * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/local_variables.html}
+     */
+    local_variable: $ => seq(/[a-z_]/, optional(identifierRegex)),
+
+    /**
+     * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/methods_and_instance_variables.html}
+     */
+    instance_variable: $ => seq('@', /[a-z_]/, optional(identifierRegex)),
+
+    /**
+     * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/class_variables.html}
+     */
+    class_variable: $ => seq('@@', /[a-z_]/, optional(identifierRegex)),
+
+    /**
+     * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/class_variables.html}
+     */
+    constant: $ => seq(/[A-Z]/, optional(identifierRegex)),
+
+    /**
+     * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/assignment.html}
+     */
+    assignment: $ => prec.right(2, seq(
+      field('lhs', choice(
+        $.local_variable,
+        $.instance_variable,
+        $.class_variable,
+        $.constant,
+        // TODO: support "setters": foo.bar = 42
+        // TODO: support array/hash index assignment: foo[:test] = "test"
+        // TODO: support foo.[]=(2,4) (which would technically be a method call?)
+      )),
+      '=',
+      field('rhs', $._expression)
+    )),
 
     _operator: $ => choice( "+", "-", "*", "/", "%", "&", "|", "^", "**", ">>", "<<", "==", "!=", "<", "<=", ">", ">=", "<=>", "===", "[]", "[]?", "[]=", "!", "~", "!~", "=~",),
 
