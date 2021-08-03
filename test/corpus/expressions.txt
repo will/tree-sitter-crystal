@@ -1,3 +1,20 @@
+====================
+index element access
+====================
+
+foo["one"]
+@foo[1]
+@@foo[:my_symbol]
+FOO[foo[1]] 
+
+---
+(program
+  (index_expression target: (local_variable) key: (string))
+  (index_expression target: (instance_variable) key: (integer))
+  (index_expression target: (class_variable) key: (symbol))
+  (index_expression target: (constant) key: (index_expression target: (local_variable) key: (integer)))
+)
+
 ==========
 assignment
 ==========
@@ -7,6 +24,7 @@ foo = 1
 @@foo = [1, 2, 3]
 PI = 3.14
 foo = bar = 4
+foo[:test] = "test"
 
 ---
 (program
@@ -15,4 +33,5 @@ foo = bar = 4
   (assignment lhs: (class_variable) rhs: (array (integer) (integer) (integer)))
   (assignment lhs: (constant) rhs: (float))
   (assignment lhs: (local_variable) rhs: (assignment lhs: (local_variable) rhs: (integer)))
+  (assignment lhs: (index_expression target: (local_variable) key: (symbol)) rhs: (string))
 )

@@ -35,6 +35,7 @@ module.exports = grammar({
       $.string                  ,
       $.array                   ,
       $.hash                    ,
+      $.index_expression   ,
       $.regex                   ,
       $.tuple                   ,
       $.namedTupleLiteral       ,
@@ -160,6 +161,13 @@ module.exports = grammar({
       );
     },
 
+    index_expression: $ => seq(
+      field('target', $._variable),
+      token.immediate('['),
+      field('key', $._expression),
+      token.immediate(']')
+    ),
+
     // TODO: ranges
 
     /**
@@ -241,18 +249,21 @@ module.exports = grammar({
       seq(/[A-Z]/, optional(identifierRegex))
     ),
 
+    _variable: $ => choice(
+      $.local_variable,
+      $.instance_variable,
+      $.class_variable,
+      $.constant
+    ),
+
     /**
      * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/assignment.html}
      */
     assignment: $ => prec.right(2, seq(
       field('lhs', choice(
-        $.local_variable,
-        $.instance_variable,
-        $.class_variable,
-        $.constant,
-        // TODO: support "setters": foo.bar = 42
-        // TODO: support array/hash index assignment: foo[:test] = "test"
-        // TODO: support foo.[]=(2,4) (which would technically be a method call?)
+        $._variable, 
+        $.index_expression
+        // TODO: "setters", like foo.bar = 42
       )),
       '=',
       field('rhs', $._expression)
