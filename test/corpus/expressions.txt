@@ -14,7 +14,5 @@ foo = bar = 4
   (assignment lhs: (instance_variable) rhs: (string))
   (assignment lhs: (class_variable) rhs: (array (integer) (integer) (integer)))
   (assignment lhs: (constant) rhs: (float))
-  (assignment lhs: (local_variable) rhs: (
-    assignment lhs: (local_variable) rhs: (integer))
-  )
+  (assignment lhs: (local_variable) rhs: (assignment lhs: (local_variable) rhs: (integer)))
 )

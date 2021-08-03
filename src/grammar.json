@@ -721,21 +721,42 @@
       ]
     },
     "constant": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
-          "type": "PATTERN",
-          "value": "[A-Z]"
+          "type": "STRING",
+          "value": "__LINE__"
         },
         {
-          "type": "CHOICE",
+          "type": "STRING",
+          "value": "__END_LINE__"
+        },
+        {
+          "type": "STRING",
+          "value": "__FILE__"
+        },
+        {
+          "type": "STRING",
+          "value": "__DIR__"
+        },
+        {
+          "type": "SEQ",
           "members": [
             {
               "type": "PATTERN",
-              "value": "[^\\x00-\\x40\\x5B-\\x5E\\x60-\\x60\\x7B-\\x9F][^\\x00-\\x2F\\x3A-\\x40\\x5B-\\x5E\\x60-\\x60\\x7B-\\x9F]*[=!\\?]?"
+              "value": "[A-Z]"
             },
             {
-              "type": "BLANK"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "PATTERN",
+                  "value": "[^\\x00-\\x40\\x5B-\\x5E\\x60-\\x60\\x7B-\\x9F][^\\x00-\\x2F\\x3A-\\x40\\x5B-\\x5E\\x60-\\x60\\x7B-\\x9F]*[=!\\?]?"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
             }
           ]
         }

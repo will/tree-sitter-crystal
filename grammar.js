@@ -231,9 +231,15 @@ module.exports = grammar({
     class_variable: $ => seq('@@', /[a-z_]/, optional(identifierRegex)),
 
     /**
-     * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/class_variables.html}
+     * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/constants.html}
      */
-    constant: $ => seq(/[A-Z]/, optional(identifierRegex)),
+    constant: $ => choice(
+      '__LINE__',
+      '__END_LINE__',
+      '__FILE__',
+      '__DIR__',
+      seq(/[A-Z]/, optional(identifierRegex))
+    ),
 
     /**
      * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/assignment.html}

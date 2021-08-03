@@ -760,6 +760,22 @@
     "named": false
   },
   {
+    "type": "__DIR__",
+    "named": false
+  },
+  {
+    "type": "__END_LINE__",
+    "named": false
+  },
+  {
+    "type": "__FILE__",
+    "named": false
+  },
+  {
+    "type": "__LINE__",
+    "named": false
+  },
+  {
     "type": "`",
     "named": false
   },
