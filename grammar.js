@@ -35,7 +35,7 @@ module.exports = grammar({
       $.string                  ,
       $.array                   ,
       $.hash                    ,
-      $.index_expression   ,
+      $.index_expression        ,
       $.regex                   ,
       $.tuple                   ,
       $.namedTupleLiteral       ,
