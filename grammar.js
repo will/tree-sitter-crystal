@@ -41,6 +41,7 @@ module.exports = grammar({
       $.namedTupleLiteral       ,
       $.commandLiteral          ,
       $.assignment              ,
+      $.constant                ,
     ),
 
     identifier: $ => identifierRegex,

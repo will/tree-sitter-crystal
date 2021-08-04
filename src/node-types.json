@@ -28,6 +28,10 @@
           "named": true
         },
         {
+          "type": "constant",
+          "named": true
+        },
+        {
           "type": "float",
           "named": true
         },
@@ -122,6 +126,10 @@
           },
           {
             "type": "commandLiteral",
+            "named": true
+          },
+          {
+            "type": "constant",
             "named": true
           },
           {
@@ -227,6 +235,10 @@
             "named": true
           },
           {
+            "type": "constant",
+            "named": true
+          },
+          {
             "type": "float",
             "named": true
           },
@@ -290,6 +302,10 @@
           },
           {
             "type": "commandLiteral",
+            "named": true
+          },
+          {
+            "type": "constant",
             "named": true
           },
           {
@@ -367,6 +383,10 @@
           },
           {
             "type": "commandLiteral",
+            "named": true
+          },
+          {
+            "type": "constant",
             "named": true
           },
           {
@@ -493,6 +513,10 @@
             "named": true
           },
           {
+            "type": "constant",
+            "named": true
+          },
+          {
             "type": "float",
             "named": true
           },
@@ -562,6 +586,10 @@
         },
         {
           "type": "commandLiteral",
+          "named": true
+        },
+        {
+          "type": "constant",
           "named": true
         },
         {
@@ -648,6 +676,10 @@
         },
         {
           "type": "commandLiteral",
+          "named": true
+        },
+        {
+          "type": "constant",
           "named": true
         },
         {
