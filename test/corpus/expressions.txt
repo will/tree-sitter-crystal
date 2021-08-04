@@ -37,3 +37,37 @@ foo[:test] = "test"
   (assignment lhs: (local_variable) rhs: (assignment lhs: (local_variable) rhs: (integer)))
   (assignment lhs: (index_expression target: (local_variable) key: (symbol)) rhs: (string))
 )
+
+================
+class definition
+================
+
+class Foo 
+end
+
+class MyMath 
+  PI = 3.14
+end
+
+class SubFoo < Foo
+  @@thing = :yes
+end
+
+class MyList(T) < Foo
+  @name = "yes"
+end
+
+---
+
+(program
+  (class_definition name: (constant))
+  (class_definition name: (constant)
+    (assignment lhs: (constant) rhs: (float))
+  )
+  (class_definition name: (constant) superclass: (constant)
+    (assignment lhs: (class_variable) rhs: (symbol))
+  )
+  (class_definition name: (constant) generic_param: (constant) superclass: (constant)
+    (assignment lhs: (instance_variable) rhs: (string))
+  )
+)

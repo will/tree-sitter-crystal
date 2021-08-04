@@ -42,6 +42,7 @@ module.exports = grammar({
       $.commandLiteral          ,
       $.assignment              ,
       $.constant                ,
+      $.class_definition        ,
     ),
 
     identifier: $ => identifierRegex,
@@ -270,8 +271,24 @@ module.exports = grammar({
       field('rhs', $._expression)
     )),
 
-    _operator: $ => choice( "+", "-", "*", "/", "%", "&", "|", "^", "**", ">>", "<<", "==", "!=", "<", "<=", ">", ">=", "<=>", "===", "[]", "[]?", "[]=", "!", "~", "!~", "=~",),
+    /**
+     * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/classes_and_methods.html}
+     * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/generics.html}
+     */
+    class_definition: $ => {
+      // TODO: generics of depth N -- we need a way to recursively define "type identifier"
+      // but without conflicting with $.constant
+      return seq(
+        'class',
+        field('name', $.constant),
+        optional(seq('(', field('generic_param', $.constant), ')')), // TODO: generics more than 1 level deep
+        optional(seq('<', field('superclass', $.constant))),
+        repeat($._statement),
+        'end'
+      );
+    },
 
+    _operator: $ => choice( "+", "-", "*", "/", "%", "&", "|", "^", "**", ">>", "<<", "==", "!=", "<", "<=", ">", ">=", "<=>", "===", "[]", "[]?", "[]=", "!", "~", "!~", "=~",),
   }
 
 });

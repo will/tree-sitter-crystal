@@ -24,6 +24,10 @@
           "named": true
         },
         {
+          "type": "class_definition",
+          "named": true
+        },
+        {
           "type": "commandLiteral",
           "named": true
         },
@@ -125,6 +129,10 @@
             "named": true
           },
           {
+            "type": "class_definition",
+            "named": true
+          },
+          {
             "type": "commandLiteral",
             "named": true
           },
@@ -187,6 +195,116 @@
     "fields": {}
   },
   {
+    "type": "class_definition",
+    "named": true,
+    "fields": {
+      "generic_param": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "constant",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "constant",
+            "named": true
+          }
+        ]
+      },
+      "superclass": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "constant",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "bool",
+          "named": true
+        },
+        {
+          "type": "char",
+          "named": true
+        },
+        {
+          "type": "class_definition",
+          "named": true
+        },
+        {
+          "type": "commandLiteral",
+          "named": true
+        },
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "hash",
+          "named": true
+        },
+        {
+          "type": "index_expression",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "namedTupleLiteral",
+          "named": true
+        },
+        {
+          "type": "nil",
+          "named": true
+        },
+        {
+          "type": "regex",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "tuple",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "class_variable",
     "named": true,
     "fields": {}
@@ -228,6 +346,10 @@
           },
           {
             "type": "char",
+            "named": true
+          },
+          {
+            "type": "class_definition",
             "named": true
           },
           {
@@ -298,6 +420,10 @@
           },
           {
             "type": "char",
+            "named": true
+          },
+          {
+            "type": "class_definition",
             "named": true
           },
           {
@@ -379,6 +505,10 @@
           },
           {
             "type": "char",
+            "named": true
+          },
+          {
+            "type": "class_definition",
             "named": true
           },
           {
@@ -509,6 +639,10 @@
             "named": true
           },
           {
+            "type": "class_definition",
+            "named": true
+          },
+          {
             "type": "commandLiteral",
             "named": true
           },
@@ -582,6 +716,10 @@
         },
         {
           "type": "char",
+          "named": true
+        },
+        {
+          "type": "class_definition",
           "named": true
         },
         {
@@ -672,6 +810,10 @@
         },
         {
           "type": "char",
+          "named": true
+        },
+        {
+          "type": "class_definition",
           "named": true
         },
         {
@@ -795,6 +937,10 @@
   },
   {
     "type": "'\\v'",
+    "named": false
+  },
+  {
+    "type": "(",
     "named": false
   },
   {
@@ -938,8 +1084,16 @@
     "named": false
   },
   {
+    "type": "class",
+    "named": false
+  },
+  {
     "type": "comment",
     "named": true
+  },
+  {
+    "type": "end",
+    "named": false
   },
   {
     "type": "false",
