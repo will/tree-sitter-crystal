@@ -251,8 +251,8 @@ hash
     key: (integer) value: (string)
     key: (char) value: (string)
   )
-  (hash)
-  (hash)
+  (hash key_type: (type) value_type: (type))
+  (hash key_type: (type (namespace)) value_type: (type (namespace) generic_param: (type)))
 )
 
 =====

@@ -198,22 +198,12 @@
     "type": "class_definition",
     "named": true,
     "fields": {
-      "generic_param": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "constant",
-            "named": true
-          }
-        ]
-      },
       "name": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "constant",
+            "type": "type",
             "named": true
           }
         ]
@@ -223,7 +213,7 @@
         "required": false,
         "types": [
           {
-            "type": "constant",
+            "type": "type",
             "named": true
           }
         ]
@@ -402,6 +392,16 @@
           }
         ]
       },
+      "key_type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      },
       "value": {
         "multiple": true,
         "required": false,
@@ -472,6 +472,16 @@
           },
           {
             "type": "tuple",
+            "named": true
+          }
+        ]
+      },
+      "value_type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type",
             "named": true
           }
         ]
@@ -695,6 +705,11 @@
     }
   },
   {
+    "type": "namespace",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "program",
     "named": true,
     "fields": {},
@@ -868,6 +883,32 @@
     }
   },
   {
+    "type": "type",
+    "named": false,
+    "fields": {
+      "generic_param": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "namespace",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "!",
     "named": false
   },
@@ -973,6 +1014,10 @@
   },
   {
     "type": ":",
+    "named": false
+  },
+  {
+    "type": "::",
     "named": false
   },
   {

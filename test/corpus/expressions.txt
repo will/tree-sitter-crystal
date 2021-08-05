@@ -57,17 +57,24 @@ class MyList(T) < Foo
   @name = "yes"
 end
 
+class MyHash(A, B) < Bar
+  local_var = 44
+end
+
 ---
 
 (program
-  (class_definition name: (constant))
-  (class_definition name: (constant)
+  (class_definition name: (type))
+  (class_definition name: (type)
     (assignment lhs: (constant) rhs: (float))
   )
-  (class_definition name: (constant) superclass: (constant)
+  (class_definition name: (type) superclass: (type)
     (assignment lhs: (class_variable) rhs: (symbol))
   )
-  (class_definition name: (constant) generic_param: (constant) superclass: (constant)
+  (class_definition name: (type generic_param: (type)) superclass: (type)
     (assignment lhs: (instance_variable) rhs: (string))
+  )
+  (class_definition name: (type generic_param: (type) generic_param: (type)) superclass: (type)
+    (assignment lhs: (local_variable) rhs: (integer))
   )
 )

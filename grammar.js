@@ -1,10 +1,12 @@
-const commaSep1 = (term) => seq(
+const sepBy1 = (term, separator) => seq(
   term,
-  repeat(seq(',', term))
+  repeat(seq(separator, term))
 );
+const commaSep1 = (term) => sepBy1(term, ',');
 
                           //        A-Z        _      a-z                  0-9      A-Z       _        a-z
 const identifierRegex = /[^\x00-\x40\x5B-\x5E\x60-\x60\x7B-\x9F][^\x00-\x2F\x3A-\x40\x5B-\x5E\x60-\x60\x7B-\x9F]*[=!\?]?/
+const typeIdentifier = $ => alias($.constant, $.type);
 
 module.exports = grammar({
   name: 'crystal',
@@ -153,9 +155,9 @@ module.exports = grammar({
         '{',
         '}',
         'of',
-        /[^\s]+/, // TODO: better "type" matcher
+        field('key_type', $.type),
         '=>',
-        /[^\s]+/ // TODO: better "type" matcher
+        field('value_type', $.type)
       );
       return choice(
         nonEmptyHash,
@@ -276,17 +278,29 @@ module.exports = grammar({
      * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/generics.html}
      */
     class_definition: $ => {
-      // TODO: generics of depth N -- we need a way to recursively define "type identifier"
-      // but without conflicting with $.constant
       return seq(
         'class',
-        field('name', $.constant),
-        optional(seq('(', field('generic_param', $.constant), ')')), // TODO: generics more than 1 level deep
-        optional(seq('<', field('superclass', $.constant))),
+        field('name', $.type),
+        optional(seq('<', field('superclass', $.type))),
         repeat($._statement),
         'end'
       );
     },
+
+    type: $ => seq(
+      choice(
+        alias($.constant, 'type'), // no namespace
+        seq(
+          repeat1(seq(alias($.constant, $.namespace), '::')),
+          alias($.constant, 'type')
+        )
+      ),
+      optional(seq(
+        '(',
+        commaSep1(field('generic_param', $.type)),
+        ')'
+      ))
+    ),
 
     _operator: $ => choice( "+", "-", "*", "/", "%", "&", "|", "^", "**", ">>", "<<", "==", "!=", "<", "<=", ">", ">=", "<=>", "===", "[]", "[]?", "[]=", "!", "~", "!~", "=~",),
   }
