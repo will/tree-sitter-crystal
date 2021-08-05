@@ -616,7 +616,7 @@
     "fields": {
       "key": {
         "multiple": true,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "identifier",
@@ -628,9 +628,19 @@
           }
         ]
       },
+      "key_name": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
       "value": {
         "multiple": true,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "array",
@@ -698,6 +708,16 @@
           },
           {
             "type": "tuple",
+            "named": true
+          }
+        ]
+      },
+      "value_type": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "type",
             "named": true
           }
         ]
@@ -1078,6 +1098,10 @@
   },
   {
     "type": "@@",
+    "named": false
+  },
+  {
+    "type": "NamedTuple",
     "named": false
   },
   {

@@ -11,6 +11,12 @@ const typeIdentifier = $ => alias($.constant, $.type);
 module.exports = grammar({
   name: 'crystal',
 
+  // Explicitly call out conflicting/overlapping rules so that Treesitter knows they're 
+  //  *supposed* to be conflicting/overlapping, and can then make an intelligent decision.
+  conflicts: $ => [
+    [$.type, $.namedTupleLiteral]
+  ],
+
   // stuff that can show up anywhere
   extras: $ => [
     /\s/, // we have to include this, or else tree-sitter assumes we're handling whitespace all manually
@@ -197,7 +203,6 @@ module.exports = grammar({
 
     /**
 	   * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/literals/named_tuple.html}
-     * TODO: NamedTuple type declaration
 	   */
     namedTupleLiteral: $ => {
       const symbolKey = /[A-Za-z][A-Za-z0-9_]*/;
@@ -206,10 +211,23 @@ module.exports = grammar({
         ':',
         field('value', $._expression)
       );
-      return seq(
-        '{',
-        commaSep1(keyAndValue),
-        '}'
+      const keyAndValueTypeDeclaration = seq(
+        field('key_name', $.identifier),
+        ':',
+        field('value_type', $.type)
+      );
+      return choice(
+        seq(
+          'NamedTuple',
+          '(',
+          commaSep1(keyAndValueTypeDeclaration),
+          ')'
+        ),
+        seq(
+          '{',
+          commaSep1(keyAndValue),
+          '}'
+        )
       );
     },
 
