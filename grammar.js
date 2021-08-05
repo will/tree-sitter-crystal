@@ -6,7 +6,6 @@ const commaSep1 = (term) => sepBy1(term, ',');
 
                           //        A-Z        _      a-z                  0-9      A-Z       _        a-z
 const identifierRegex = /[^\x00-\x40\x5B-\x5E\x60-\x60\x7B-\x9F][^\x00-\x2F\x3A-\x40\x5B-\x5E\x60-\x60\x7B-\x9F]*[=!\?]?/
-const typeIdentifier = $ => alias($.constant, $.type);
 
 module.exports = grammar({
   name: 'crystal',
