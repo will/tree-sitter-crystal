@@ -13,7 +13,8 @@ module.exports = grammar({
   // Explicitly call out conflicting/overlapping rules so that Treesitter knows they're 
   //  *supposed* to be conflicting/overlapping, and can then make an intelligent decision.
   conflicts: $ => [
-    [$.type, $.namedTupleLiteral]
+    [$.type, $.namedTupleLiteral],
+    [$._expression, $._variable], // needed to make assignment to variables work
   ],
 
   // stuff that can show up anywhere
@@ -49,7 +50,9 @@ module.exports = grammar({
       $.commandLiteral          ,
       $.assignment              ,
       $.constant                ,
+      $.module_definition       ,
       $.class_definition        ,
+      $.method_definition       ,
     ),
 
     identifier: $ => identifierRegex,
@@ -287,8 +290,20 @@ module.exports = grammar({
         // TODO: "setters", like foo.bar = 42
       )),
       '=',
-      field('rhs', $._expression)
+      field('rhs', choice($._variable, $._expression))
     )),
+
+    /**
+     * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/modules.html}
+     */
+    module_definition: $ => {
+      return seq(
+        'module',
+        field('name', $.type),
+        repeat($._statement),
+        'end'
+      );
+    },
 
     /**
      * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/classes_and_methods.html}
@@ -299,6 +314,26 @@ module.exports = grammar({
         'class',
         field('name', $.type),
         optional(seq('<', field('superclass', $.type))),
+        repeat($._statement),
+        'end'
+      );
+    },
+
+    /**
+     * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/methods_and_instance_variables.html}
+     */
+    method_definition: $ => { 
+      const className = seq(choice('self', $.type), '.');
+      const parameterList = seq(
+        '(',
+        optional(commaSep1(field('param', $.identifier))),
+        ')'
+      );
+      return seq(
+        'def',
+        optional(field('class_name', className)), // if this is a class-method definition
+        field('name', $.identifier),
+        optional(parameterList),
         repeat($._statement),
         'end'
       );

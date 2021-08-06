@@ -26,7 +26,7 @@ foo = 1
 @@foo = [1, 2, 3]
 PI = 3.14
 foo = bar = 4
-foo[:test] = "test"
+foo[:test] = foo[:otherTest]
 
 ---
 (program
@@ -35,7 +35,39 @@ foo[:test] = "test"
   (assignment lhs: (class_variable) rhs: (array (integer) (integer) (integer)))
   (assignment lhs: (constant) rhs: (float))
   (assignment lhs: (local_variable) rhs: (assignment lhs: (local_variable) rhs: (integer)))
-  (assignment lhs: (index_expression target: (local_variable) key: (symbol)) rhs: (string))
+  (assignment 
+    lhs: (index_expression target: (local_variable) key: (symbol)) 
+    rhs: (index_expression target: (local_variable) key: (symbol)))
+)
+
+=================
+method definition
+=================
+
+def do_it
+  @message = "don't let your dreams be dreams!"
+end
+
+def do_it_again()
+  @done = true
+end
+
+def set_message(message)
+  @message = message
+end
+
+---
+
+(program
+  (method_definition name: (identifier) 
+    (assignment lhs: (instance_variable) rhs: (string))
+  )
+  (method_definition name: (identifier) 
+    (assignment lhs: (instance_variable) rhs: (bool))
+  )
+  (method_definition name: (identifier) param: (identifier)
+    (assignment lhs: (instance_variable) rhs: (local_variable))
+  )
 )
 
 ================
@@ -61,6 +93,12 @@ class MyHash(A, B) < Bar
   local_var = 44
 end
 
+class MyList(T) < Foo
+  def initialize(base)
+    @contents = base
+  end
+end
+
 ---
 
 (program
@@ -76,5 +114,38 @@ end
   )
   (class_definition name: (type generic_param: (type) generic_param: (type)) superclass: (type)
     (assignment lhs: (local_variable) rhs: (integer))
+  )
+  (class_definition name: (type generic_param: (type)) superclass: (type)
+    (method_definition name: (identifier) param: (identifier)
+      (assignment lhs: (instance_variable) rhs: (local_variable))
+    )
+  )
+)
+
+=================
+module definition
+==================
+
+module A 
+end
+
+module B 
+  class MyB 
+    def initialize(b)
+      @b = b
+    end
+  end
+end
+
+---
+
+(program
+  (module_definition name: (type))
+  (module_definition name: (type)
+    (class_definition name: (type)
+      (method_definition name: (identifier) param: (identifier)
+        (assignment lhs: (instance_variable) rhs: (local_variable))
+      )
+    )
   )
 )
