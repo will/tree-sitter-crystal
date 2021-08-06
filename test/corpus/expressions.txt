@@ -182,3 +182,64 @@ end
     (local_variable)
   )
 )
+
+=================
+binary operations
+=================
+
+1 + 1
+9002 - 1
+3.14 * 2
+42 / 3.33
+foo % 2
+foo & 2
+foo | 2
+2 ^ 3
+2 ** 3
+2 >> 1
+responses << :yes
+foo == PI
+foo != bar
+foo === :yes
+something < 3.14
+something <= 3.14
+something > 3.14
+something >= 3.14
+something <=> 3.14
+my_thing =~ /test/
+
+1 + 1 + 1
+
+foo = 1 + 1
+
+---
+
+(program
+  (binary_operation (integer) (operator) (integer))
+  (binary_operation (integer) (operator) (integer))
+  (binary_operation (float) (operator) (integer))
+  (binary_operation (integer) (operator) (float))
+  (binary_operation (local_variable) (operator) (integer))
+  (binary_operation (local_variable) (operator) (integer))
+  (binary_operation (local_variable) (operator) (integer))
+  (binary_operation (integer) (operator) (integer))
+  (binary_operation (integer) (operator) (integer))
+  (binary_operation (integer) (operator) (integer))
+  (binary_operation (local_variable) (operator) (symbol))
+  (binary_operation (local_variable) (operator) (constant))
+  (binary_operation (local_variable) (operator) (local_variable))
+  (binary_operation (local_variable) (operator) (symbol))
+  (binary_operation (local_variable) (operator) (float))
+  (binary_operation (local_variable) (operator) (float))
+  (binary_operation (local_variable) (operator) (float))
+  (binary_operation (local_variable) (operator) (float))
+  (binary_operation (local_variable) (operator) (float))
+  (binary_operation (local_variable) (operator) (regex))
+  (binary_operation 
+    (binary_operation (integer) (operator) (integer))
+    (operator) (integer)
+  )
+  (assignment lhs: (local_variable) rhs: (binary_operation
+    (integer) (operator) (integer))
+  )
+)

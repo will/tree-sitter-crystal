@@ -16,6 +16,10 @@
           "named": true
         },
         {
+          "type": "binary_operation",
+          "named": true
+        },
+        {
           "type": "block",
           "named": true
         },
@@ -145,6 +149,10 @@
             "named": true
           },
           {
+            "type": "binary_operation",
+            "named": true
+          },
+          {
             "type": "block",
             "named": true
           },
@@ -233,6 +241,117 @@
     }
   },
   {
+    "type": "binary_operation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "binary_operation",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "bool",
+          "named": true
+        },
+        {
+          "type": "char",
+          "named": true
+        },
+        {
+          "type": "class_definition",
+          "named": true
+        },
+        {
+          "type": "class_variable",
+          "named": true
+        },
+        {
+          "type": "commandLiteral",
+          "named": true
+        },
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "hash",
+          "named": true
+        },
+        {
+          "type": "index_expression",
+          "named": true
+        },
+        {
+          "type": "instance_variable",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "local_variable",
+          "named": true
+        },
+        {
+          "type": "method_definition",
+          "named": true
+        },
+        {
+          "type": "module_definition",
+          "named": true
+        },
+        {
+          "type": "namedTupleLiteral",
+          "named": true
+        },
+        {
+          "type": "nil",
+          "named": true
+        },
+        {
+          "type": "operator",
+          "named": true
+        },
+        {
+          "type": "regex",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "tuple",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "block",
     "named": true,
     "fields": {
@@ -257,6 +376,10 @@
         },
         {
           "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "binary_operation",
           "named": true
         },
         {
@@ -394,6 +517,10 @@
           "named": true
         },
         {
+          "type": "binary_operation",
+          "named": true
+        },
+        {
           "type": "block",
           "named": true
         },
@@ -517,6 +644,10 @@
             "named": true
           },
           {
+            "type": "binary_operation",
+            "named": true
+          },
+          {
             "type": "block",
             "named": true
           },
@@ -622,6 +753,10 @@
           },
           {
             "type": "assignment",
+            "named": true
+          },
+          {
+            "type": "binary_operation",
             "named": true
           },
           {
@@ -741,6 +876,10 @@
           },
           {
             "type": "assignment",
+            "named": true
+          },
+          {
+            "type": "binary_operation",
             "named": true
           },
           {
@@ -924,6 +1063,10 @@
           "named": true
         },
         {
+          "type": "binary_operation",
+          "named": true
+        },
+        {
           "type": "block",
           "named": true
         },
@@ -1035,6 +1178,10 @@
         },
         {
           "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "binary_operation",
           "named": true
         },
         {
@@ -1165,6 +1312,10 @@
             "named": true
           },
           {
+            "type": "binary_operation",
+            "named": true
+          },
+          {
             "type": "block",
             "named": true
           },
@@ -1268,6 +1419,11 @@
     "fields": {}
   },
   {
+    "type": "operator",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "program",
     "named": true,
     "fields": {},
@@ -1281,6 +1437,10 @@
         },
         {
           "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "binary_operation",
           "named": true
         },
         {
@@ -1399,6 +1559,10 @@
         },
         {
           "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "binary_operation",
           "named": true
         },
         {

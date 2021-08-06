@@ -117,6 +117,10 @@
         {
           "type": "SYMBOL",
           "name": "block"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "binary_operation"
         }
       ]
     },
@@ -941,7 +945,7 @@
     },
     "assignment": {
       "type": "PREC_RIGHT",
-      "value": 2,
+      "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
@@ -1441,7 +1445,33 @@
         }
       ]
     },
-    "_operator": {
+    "binary_operation": {
+      "type": "PREC_LEFT",
+      "value": 2,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_binary_operator"
+            },
+            "named": true,
+            "value": "operator"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
+          }
+        ]
+      }
+    },
+    "_binary_operator": {
       "type": "CHOICE",
       "members": [
         {
@@ -1522,6 +1552,19 @@
         },
         {
           "type": "STRING",
+          "value": "=~"
+        }
+      ]
+    },
+    "_operator": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_binary_operator"
+        },
+        {
+          "type": "STRING",
           "value": "[]"
         },
         {
@@ -1543,10 +1586,6 @@
         {
           "type": "STRING",
           "value": "!~"
-        },
-        {
-          "type": "STRING",
-          "value": "=~"
         }
       ]
     }

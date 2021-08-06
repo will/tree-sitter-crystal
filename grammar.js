@@ -3,9 +3,14 @@ const sepBy1 = (term, separator) => seq(
   repeat(seq(separator, term))
 );
 const commaSep1 = (term) => sepBy1(term, ',');
-
                           //        A-Z        _      a-z                  0-9      A-Z       _        a-z
 const identifierRegex = /[^\x00-\x40\x5B-\x5E\x60-\x60\x7B-\x9F][^\x00-\x2F\x3A-\x40\x5B-\x5E\x60-\x60\x7B-\x9F]*[=!\?]?/
+
+// TODO: more-specific operator precedence
+const precedenceMap = {
+  assignment: 1,
+  binary_operation: 2
+}
 
 module.exports = grammar({
   name: 'crystal',
@@ -53,6 +58,7 @@ module.exports = grammar({
       $.class_definition        ,
       $.method_definition       ,
       $.block                   ,
+      $.binary_operation        ,
     ),
 
     identifier: $ => identifierRegex,
@@ -283,7 +289,7 @@ module.exports = grammar({
     /**
      * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/assignment.html}
      */
-    assignment: $ => prec.right(2, seq(
+    assignment: $ => prec.right(precedenceMap.assignment, seq(
       field('lhs', choice(
         $._variable, 
         $.index_expression
@@ -369,7 +375,21 @@ module.exports = grammar({
       );
     },
 
-    _operator: $ => choice( "+", "-", "*", "/", "%", "&", "|", "^", "**", ">>", "<<", "==", "!=", "<", "<=", ">", ">=", "<=>", "===", "[]", "[]?", "[]=", "!", "~", "!~", "=~",),
+    // TODO: operator precedence rules
+    binary_operation: $ => prec.left(precedenceMap.binary_operation, seq(
+      $._expression,
+      alias($._binary_operator, $.operator),
+      $._expression
+    )),
+
+    _binary_operator: $ => choice(
+      "+", "-", "*", "/", "%", "&", "|", "^", "**", ">>", "<<", "==", "!=", "<", "<=", ">", ">=", "<=>", "===", "=~"
+    ),
+
+    _operator: $ => choice( 
+      $._binary_operator,
+      "[]", "[]?", "[]=", "!", "~", "!~", 
+    ),
   }
 
 });
