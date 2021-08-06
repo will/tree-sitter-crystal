@@ -3,9 +3,14 @@ const sepBy1 = (term, separator) => seq(
   repeat(seq(separator, term))
 );
 const commaSep1 = (term) => sepBy1(term, ',');
-
                           //        A-Z        _      a-z                  0-9      A-Z       _        a-z
 const identifierRegex = /[^\x00-\x40\x5B-\x5E\x60-\x60\x7B-\x9F][^\x00-\x2F\x3A-\x40\x5B-\x5E\x60-\x60\x7B-\x9F]*[=!\?]?/
+
+// TODO: more-specific operator precedence
+const precedenceMap = {
+  assignment: 1,
+  binary_operation: 2
+}
 
 module.exports = grammar({
   name: 'crystal',
@@ -13,7 +18,7 @@ module.exports = grammar({
   // Explicitly call out conflicting/overlapping rules so that Treesitter knows they're 
   //  *supposed* to be conflicting/overlapping, and can then make an intelligent decision.
   conflicts: $ => [
-    [$.type, $.namedTupleLiteral]
+    [$.type, $.namedTupleLiteral],
   ],
 
   // stuff that can show up anywhere
@@ -48,8 +53,12 @@ module.exports = grammar({
       $.namedTupleLiteral       ,
       $.commandLiteral          ,
       $.assignment              ,
-      $.constant                ,
+      $._variable               ,
+      $.module_definition       ,
       $.class_definition        ,
+      $.method_definition       ,
+      $.block                   ,
+      $.binary_operation        ,
     ),
 
     identifier: $ => identifierRegex,
@@ -280,15 +289,27 @@ module.exports = grammar({
     /**
      * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/assignment.html}
      */
-    assignment: $ => prec.right(2, seq(
+    assignment: $ => prec.right(precedenceMap.assignment, seq(
       field('lhs', choice(
         $._variable, 
         $.index_expression
         // TODO: "setters", like foo.bar = 42
       )),
       '=',
-      field('rhs', $._expression)
+      field('rhs', choice($._variable, $._expression))
     )),
+
+    /**
+     * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/modules.html}
+     */
+    module_definition: $ => {
+      return seq(
+        'module',
+        field('name', $.type),
+        repeat($._statement),
+        'end'
+      );
+    },
 
     /**
      * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/classes_and_methods.html}
@@ -299,6 +320,26 @@ module.exports = grammar({
         'class',
         field('name', $.type),
         optional(seq('<', field('superclass', $.type))),
+        repeat($._statement),
+        'end'
+      );
+    },
+
+    /**
+     * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/methods_and_instance_variables.html}
+     */
+    method_definition: $ => { 
+      const className = seq(choice('self', $.type), '.');
+      const parameterList = seq(
+        '(',
+        optional(commaSep1(field('param', $.identifier))),
+        ')'
+      );
+      return seq(
+        'def',
+        optional(field('class_name', className)), // if this is a class-method definition
+        field('name', $.identifier),
+        optional(parameterList),
         repeat($._statement),
         'end'
       );
@@ -319,7 +360,36 @@ module.exports = grammar({
       ))
     ),
 
-    _operator: $ => choice( "+", "-", "*", "/", "%", "&", "|", "^", "**", ">>", "<<", "==", "!=", "<", "<=", ">", ">=", "<=>", "===", "[]", "[]?", "[]=", "!", "~", "!~", "=~",),
+    /**
+     * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/blocks_and_procs.html}
+     */
+    block: $ => {
+      const paramList = seq(
+        '|',
+        commaSep1(field('param', $.identifier)),
+        '|'
+      );
+      return choice(
+        seq('{', paramList, $._expression, '}'),
+        seq('do', optional(paramList), repeat($._statement), 'end')
+      );
+    },
+
+    // TODO: operator precedence rules
+    binary_operation: $ => prec.left(precedenceMap.binary_operation, seq(
+      $._expression,
+      alias($._binary_operator, $.operator),
+      $._expression
+    )),
+
+    _binary_operator: $ => choice(
+      "+", "-", "*", "/", "%", "&", "|", "^", "**", ">>", "<<", "==", "!=", "<", "<=", ">", ">=", "<=>", "===", "=~"
+    ),
+
+    _operator: $ => choice( 
+      $._binary_operator,
+      "[]", "[]?", "[]=", "!", "~", "!~", 
+    ),
   }
 
 });

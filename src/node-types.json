@@ -16,6 +16,14 @@
           "named": true
         },
         {
+          "type": "binary_operation",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
           "type": "bool",
           "named": true
         },
@@ -25,6 +33,10 @@
         },
         {
           "type": "class_definition",
+          "named": true
+        },
+        {
+          "type": "class_variable",
           "named": true
         },
         {
@@ -48,7 +60,23 @@
           "named": true
         },
         {
+          "type": "instance_variable",
+          "named": true
+        },
+        {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "local_variable",
+          "named": true
+        },
+        {
+          "type": "method_definition",
+          "named": true
+        },
+        {
+          "type": "module_definition",
           "named": true
         },
         {
@@ -121,6 +149,14 @@
             "named": true
           },
           {
+            "type": "binary_operation",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
             "type": "bool",
             "named": true
           },
@@ -130,6 +166,10 @@
           },
           {
             "type": "class_definition",
+            "named": true
+          },
+          {
+            "type": "class_variable",
             "named": true
           },
           {
@@ -153,7 +193,23 @@
             "named": true
           },
           {
+            "type": "instance_variable",
+            "named": true
+          },
+          {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "local_variable",
+            "named": true
+          },
+          {
+            "type": "method_definition",
+            "named": true
+          },
+          {
+            "type": "module_definition",
             "named": true
           },
           {
@@ -182,6 +238,235 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "binary_operation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "binary_operation",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "bool",
+          "named": true
+        },
+        {
+          "type": "char",
+          "named": true
+        },
+        {
+          "type": "class_definition",
+          "named": true
+        },
+        {
+          "type": "class_variable",
+          "named": true
+        },
+        {
+          "type": "commandLiteral",
+          "named": true
+        },
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "hash",
+          "named": true
+        },
+        {
+          "type": "index_expression",
+          "named": true
+        },
+        {
+          "type": "instance_variable",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "local_variable",
+          "named": true
+        },
+        {
+          "type": "method_definition",
+          "named": true
+        },
+        {
+          "type": "module_definition",
+          "named": true
+        },
+        {
+          "type": "namedTupleLiteral",
+          "named": true
+        },
+        {
+          "type": "nil",
+          "named": true
+        },
+        {
+          "type": "operator",
+          "named": true
+        },
+        {
+          "type": "regex",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "tuple",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "block",
+    "named": true,
+    "fields": {
+      "param": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "binary_operation",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "bool",
+          "named": true
+        },
+        {
+          "type": "char",
+          "named": true
+        },
+        {
+          "type": "class_definition",
+          "named": true
+        },
+        {
+          "type": "class_variable",
+          "named": true
+        },
+        {
+          "type": "commandLiteral",
+          "named": true
+        },
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "hash",
+          "named": true
+        },
+        {
+          "type": "index_expression",
+          "named": true
+        },
+        {
+          "type": "instance_variable",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "local_variable",
+          "named": true
+        },
+        {
+          "type": "method_definition",
+          "named": true
+        },
+        {
+          "type": "module_definition",
+          "named": true
+        },
+        {
+          "type": "namedTupleLiteral",
+          "named": true
+        },
+        {
+          "type": "nil",
+          "named": true
+        },
+        {
+          "type": "regex",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "tuple",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -232,6 +517,14 @@
           "named": true
         },
         {
+          "type": "binary_operation",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
           "type": "bool",
           "named": true
         },
@@ -241,6 +534,10 @@
         },
         {
           "type": "class_definition",
+          "named": true
+        },
+        {
+          "type": "class_variable",
           "named": true
         },
         {
@@ -264,7 +561,23 @@
           "named": true
         },
         {
+          "type": "instance_variable",
+          "named": true
+        },
+        {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "local_variable",
+          "named": true
+        },
+        {
+          "type": "method_definition",
+          "named": true
+        },
+        {
+          "type": "module_definition",
           "named": true
         },
         {
@@ -331,6 +644,14 @@
             "named": true
           },
           {
+            "type": "binary_operation",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
             "type": "bool",
             "named": true
           },
@@ -340,6 +661,10 @@
           },
           {
             "type": "class_definition",
+            "named": true
+          },
+          {
+            "type": "class_variable",
             "named": true
           },
           {
@@ -363,7 +688,23 @@
             "named": true
           },
           {
+            "type": "instance_variable",
+            "named": true
+          },
+          {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "local_variable",
+            "named": true
+          },
+          {
+            "type": "method_definition",
+            "named": true
+          },
+          {
+            "type": "module_definition",
             "named": true
           },
           {
@@ -415,6 +756,14 @@
             "named": true
           },
           {
+            "type": "binary_operation",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
             "type": "bool",
             "named": true
           },
@@ -424,6 +773,10 @@
           },
           {
             "type": "class_definition",
+            "named": true
+          },
+          {
+            "type": "class_variable",
             "named": true
           },
           {
@@ -447,7 +800,23 @@
             "named": true
           },
           {
+            "type": "instance_variable",
+            "named": true
+          },
+          {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "local_variable",
+            "named": true
+          },
+          {
+            "type": "method_definition",
+            "named": true
+          },
+          {
+            "type": "module_definition",
             "named": true
           },
           {
@@ -510,6 +879,14 @@
             "named": true
           },
           {
+            "type": "binary_operation",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
             "type": "bool",
             "named": true
           },
@@ -519,6 +896,10 @@
           },
           {
             "type": "class_definition",
+            "named": true
+          },
+          {
+            "type": "class_variable",
             "named": true
           },
           {
@@ -542,7 +923,23 @@
             "named": true
           },
           {
+            "type": "instance_variable",
+            "named": true
+          },
+          {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "local_variable",
+            "named": true
+          },
+          {
+            "type": "method_definition",
+            "named": true
+          },
+          {
+            "type": "module_definition",
             "named": true
           },
           {
@@ -611,6 +1008,270 @@
     "fields": {}
   },
   {
+    "type": "method_definition",
+    "named": true,
+    "fields": {
+      "class_name": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "self",
+            "named": false
+          },
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "param": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "binary_operation",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "bool",
+          "named": true
+        },
+        {
+          "type": "char",
+          "named": true
+        },
+        {
+          "type": "class_definition",
+          "named": true
+        },
+        {
+          "type": "class_variable",
+          "named": true
+        },
+        {
+          "type": "commandLiteral",
+          "named": true
+        },
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "hash",
+          "named": true
+        },
+        {
+          "type": "index_expression",
+          "named": true
+        },
+        {
+          "type": "instance_variable",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "local_variable",
+          "named": true
+        },
+        {
+          "type": "method_definition",
+          "named": true
+        },
+        {
+          "type": "module_definition",
+          "named": true
+        },
+        {
+          "type": "namedTupleLiteral",
+          "named": true
+        },
+        {
+          "type": "nil",
+          "named": true
+        },
+        {
+          "type": "regex",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "tuple",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "module_definition",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "binary_operation",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "bool",
+          "named": true
+        },
+        {
+          "type": "char",
+          "named": true
+        },
+        {
+          "type": "class_definition",
+          "named": true
+        },
+        {
+          "type": "class_variable",
+          "named": true
+        },
+        {
+          "type": "commandLiteral",
+          "named": true
+        },
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "hash",
+          "named": true
+        },
+        {
+          "type": "index_expression",
+          "named": true
+        },
+        {
+          "type": "instance_variable",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "local_variable",
+          "named": true
+        },
+        {
+          "type": "method_definition",
+          "named": true
+        },
+        {
+          "type": "module_definition",
+          "named": true
+        },
+        {
+          "type": "namedTupleLiteral",
+          "named": true
+        },
+        {
+          "type": "nil",
+          "named": true
+        },
+        {
+          "type": "regex",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "tuple",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "namedTupleLiteral",
     "named": true,
     "fields": {
@@ -651,6 +1312,14 @@
             "named": true
           },
           {
+            "type": "binary_operation",
+            "named": true
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
             "type": "bool",
             "named": true
           },
@@ -660,6 +1329,10 @@
           },
           {
             "type": "class_definition",
+            "named": true
+          },
+          {
+            "type": "class_variable",
             "named": true
           },
           {
@@ -683,7 +1356,23 @@
             "named": true
           },
           {
+            "type": "instance_variable",
+            "named": true
+          },
+          {
             "type": "integer",
+            "named": true
+          },
+          {
+            "type": "local_variable",
+            "named": true
+          },
+          {
+            "type": "method_definition",
+            "named": true
+          },
+          {
+            "type": "module_definition",
             "named": true
           },
           {
@@ -730,6 +1419,11 @@
     "fields": {}
   },
   {
+    "type": "operator",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "program",
     "named": true,
     "fields": {},
@@ -746,6 +1440,14 @@
           "named": true
         },
         {
+          "type": "binary_operation",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
           "type": "bool",
           "named": true
         },
@@ -755,6 +1457,10 @@
         },
         {
           "type": "class_definition",
+          "named": true
+        },
+        {
+          "type": "class_variable",
           "named": true
         },
         {
@@ -778,7 +1484,23 @@
           "named": true
         },
         {
+          "type": "instance_variable",
+          "named": true
+        },
+        {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "local_variable",
+          "named": true
+        },
+        {
+          "type": "method_definition",
+          "named": true
+        },
+        {
+          "type": "module_definition",
           "named": true
         },
         {
@@ -840,6 +1562,14 @@
           "named": true
         },
         {
+          "type": "binary_operation",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
           "type": "bool",
           "named": true
         },
@@ -849,6 +1579,10 @@
         },
         {
           "type": "class_definition",
+          "named": true
+        },
+        {
+          "type": "class_variable",
           "named": true
         },
         {
@@ -872,7 +1606,23 @@
           "named": true
         },
         {
+          "type": "instance_variable",
+          "named": true
+        },
+        {
           "type": "integer",
+          "named": true
+        },
+        {
+          "type": "local_variable",
+          "named": true
+        },
+        {
+          "type": "method_definition",
+          "named": true
+        },
+        {
+          "type": "module_definition",
           "named": true
         },
         {
@@ -1029,6 +1779,10 @@
     "named": false
   },
   {
+    "type": ".",
+    "named": false
+  },
+  {
     "type": "/",
     "named": false
   },
@@ -1161,6 +1915,14 @@
     "named": true
   },
   {
+    "type": "def",
+    "named": false
+  },
+  {
+    "type": "do",
+    "named": false
+  },
+  {
     "type": "end",
     "named": false
   },
@@ -1169,11 +1931,19 @@
     "named": false
   },
   {
+    "type": "module",
+    "named": false
+  },
+  {
     "type": "nil",
     "named": true
   },
   {
     "type": "of",
+    "named": false
+  },
+  {
+    "type": "self",
     "named": false
   },
   {
