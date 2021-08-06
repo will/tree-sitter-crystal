@@ -149,3 +149,36 @@ end
     )
   )
 )
+
+=====
+block
+=====
+
+do 
+  foo = 42
+  foo
+end
+
+do |a, b|
+  foo = a
+  bar = b
+  [foo, bar]
+end
+
+{|foo, bar| foo}
+
+---
+(program
+  (block 
+    (assignment lhs: (local_variable) rhs: (integer))
+    (local_variable)
+  )
+  (block param: (identifier) param: (identifier)
+    (assignment lhs: (local_variable) rhs: (local_variable))
+    (assignment lhs: (local_variable) rhs: (local_variable))
+    (array (local_variable) (local_variable))
+  )
+  (block param: (identifier) param: (identifier)
+    (local_variable)
+  )
+)

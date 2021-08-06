@@ -14,7 +14,6 @@ module.exports = grammar({
   //  *supposed* to be conflicting/overlapping, and can then make an intelligent decision.
   conflicts: $ => [
     [$.type, $.namedTupleLiteral],
-    [$._expression, $._variable], // needed to make assignment to variables work
   ],
 
   // stuff that can show up anywhere
@@ -49,10 +48,11 @@ module.exports = grammar({
       $.namedTupleLiteral       ,
       $.commandLiteral          ,
       $.assignment              ,
-      $.constant                ,
+      $._variable               ,
       $.module_definition       ,
       $.class_definition        ,
       $.method_definition       ,
+      $.block                   ,
     ),
 
     identifier: $ => identifierRegex,
@@ -353,6 +353,21 @@ module.exports = grammar({
         ')'
       ))
     ),
+
+    /**
+     * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/blocks_and_procs.html}
+     */
+    block: $ => {
+      const paramList = seq(
+        '|',
+        commaSep1(field('param', $.identifier)),
+        '|'
+      );
+      return choice(
+        seq('{', paramList, $._expression, '}'),
+        seq('do', optional(paramList), repeat($._statement), 'end')
+      );
+    },
 
     _operator: $ => choice( "+", "-", "*", "/", "%", "&", "|", "^", "**", ">>", "<<", "==", "!=", "<", "<=", ">", ">=", "<=>", "===", "[]", "[]?", "[]=", "!", "~", "!~", "=~",),
   }
