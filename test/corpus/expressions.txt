@@ -22,6 +22,8 @@ assignment
 ==========
 
 foo = 1
+foo : Int32 = 1
+foo: String = "test"
 @foo = "test"
 @@foo = [1, 2, 3]
 PI = 3.14
@@ -31,6 +33,8 @@ foo[:test] = foo[:otherTest]
 ---
 (program
   (assignment lhs: (local_variable) rhs: (integer))
+  (assignment lhs: (local_variable) type: (type) rhs: (integer))
+  (assignment lhs: (local_variable) type: (type) rhs: (string))
   (assignment lhs: (instance_variable) rhs: (string))
   (assignment lhs: (class_variable) rhs: (array (integer) (integer) (integer)))
   (assignment lhs: (constant) rhs: (float))
@@ -52,7 +56,7 @@ def do_it_again()
   @done = true
 end
 
-def set_message(message)
+def set_message(message: String)
   @message = message
 end
 
@@ -65,7 +69,8 @@ end
   (method_definition name: (identifier) 
     (assignment lhs: (instance_variable) rhs: (bool))
   )
-  (method_definition name: (identifier) param: (identifier)
+  (method_definition name: (identifier) 
+    (param name: (identifier) type: (type))
     (assignment lhs: (instance_variable) rhs: (local_variable))
   )
 )
@@ -94,7 +99,7 @@ class MyHash(A, B) < Bar
 end
 
 class MyList(T) < Foo
-  def initialize(base)
+  def initialize(base: Array(T))
     @contents = base
   end
 end
@@ -116,7 +121,8 @@ end
     (assignment lhs: (local_variable) rhs: (integer))
   )
   (class_definition name: (type generic_param: (type)) superclass: (type)
-    (method_definition name: (identifier) param: (identifier)
+    (method_definition name: (identifier) 
+      (param name: (identifier) type: (type generic_param: (type)))
       (assignment lhs: (instance_variable) rhs: (local_variable))
     )
   )
@@ -131,7 +137,7 @@ end
 
 module B 
   class MyB 
-    def initialize(b)
+    def initialize(b : Int64)
       @b = b
     end
   end
@@ -143,7 +149,8 @@ end
   (module_definition name: (type))
   (module_definition name: (type)
     (class_definition name: (type)
-      (method_definition name: (identifier) param: (identifier)
+      (method_definition name: (identifier) 
+        (param name: (identifier) type: (type))
         (assignment lhs: (instance_variable) rhs: (local_variable))
       )
     )
@@ -159,7 +166,7 @@ do
   foo
 end
 
-do |a, b|
+do |a: Int32, b: String|
   foo = a
   bar = b
   [foo, bar]
@@ -173,12 +180,16 @@ end
     (assignment lhs: (local_variable) rhs: (integer))
     (local_variable)
   )
-  (block param: (identifier) param: (identifier)
+  (block 
+    (param name: (identifier) type: (type))
+    (param name: (identifier) type: (type))
     (assignment lhs: (local_variable) rhs: (local_variable))
     (assignment lhs: (local_variable) rhs: (local_variable))
     (array (local_variable) (local_variable))
   )
-  (block param: (identifier) param: (identifier)
+  (block 
+    (param name: (identifier)) 
+    (param name: (identifier))
     (local_variable)
   )
 )
@@ -241,5 +252,35 @@ foo = 1 + 1
   )
   (assignment lhs: (local_variable) rhs: (binary_operation
     (integer) (operator) (integer))
+  )
+)
+
+===========
+method call
+===========
+
+foo.bar
+
+MyClass.static_method
+
+foo.bar(1, 2)
+
+my_array.each_slice(2) do |a: Int32, b: Int32|
+  a + b
+end
+
+
+---
+
+(program
+  (method_call object: (local_variable) name: (identifier))
+  (method_call object: (constant) name: (identifier))
+  (method_call object: (local_variable) name: (identifier) arg: (integer) arg: (integer))
+  (method_call object: (local_variable) name: (identifier) arg: (integer)
+    (block 
+      (param name: (identifier) type: (type))
+      (param name: (identifier) type: (type))
+      (binary_operation (local_variable) (operator) (local_variable))
+    )
   )
 )

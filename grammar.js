@@ -9,7 +9,8 @@ const identifierRegex = /[^\x00-\x40\x5B-\x5E\x60-\x60\x7B-\x9F][^\x00-\x2F\x3A-
 // TODO: more-specific operator precedence
 const precedenceMap = {
   assignment: 1,
-  binary_operation: 2
+  binary_operation: 2,
+  methodCall: 100,
 }
 
 module.exports = grammar({
@@ -19,6 +20,7 @@ module.exports = grammar({
   //  *supposed* to be conflicting/overlapping, and can then make an intelligent decision.
   conflicts: $ => [
     [$.type, $.namedTupleLiteral],
+    [$.local_variable, $.method_call],
   ],
 
   // stuff that can show up anywhere
@@ -38,20 +40,7 @@ module.exports = grammar({
     ),
 
     _expression: $ => choice(
-      $.nil                     ,
-      $.bool                    ,
-      $.float                   ,
-      $.integer                 ,
-      $.symbol                  ,
-      $.char                    ,
-      $.string                  ,
-      $.array                   ,
-      $.hash                    ,
-      $.index_expression        ,
-      $.regex                   ,
-      $.tuple                   ,
-      $.namedTupleLiteral       ,
-      $.commandLiteral          ,
+      $._literal                ,
       $.assignment              ,
       $._variable               ,
       $.module_definition       ,
@@ -59,6 +48,7 @@ module.exports = grammar({
       $.method_definition       ,
       $.block                   ,
       $.binary_operation        ,
+      $.method_call             ,
     ),
 
     identifier: $ => identifierRegex,
@@ -248,6 +238,23 @@ module.exports = grammar({
       seq('%x(', /[^\)]*/, ')')
     ),
 
+    _literal: $ => choice(
+      $.nil                     ,
+      $.bool                    ,
+      $.float                   ,
+      $.integer                 ,
+      $.symbol                  ,
+      $.char                    ,
+      $.string                  ,
+      $.array                   ,
+      $.hash                    ,
+      $.index_expression        ,
+      $.regex                   ,
+      $.tuple                   ,
+      $.namedTupleLiteral       ,
+      $.commandLiteral          ,
+    ),
+
     /**
 	   * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/comments.html}
 	   */
@@ -286,6 +293,11 @@ module.exports = grammar({
       $.constant
     ),
 
+    _typeAnnotation: $ => seq(
+      ':',
+      $.type
+    ),
+
     /**
      * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/assignment.html}
      */
@@ -295,6 +307,7 @@ module.exports = grammar({
         $.index_expression
         // TODO: "setters", like foo.bar = 42
       )),
+      optional(field('type', $._typeAnnotation)),
       '=',
       field('rhs', choice($._variable, $._expression))
     )),
@@ -325,6 +338,11 @@ module.exports = grammar({
       );
     },
 
+    param: $ => seq(
+        field('name', $.identifier),
+        optional(field('type', $._typeAnnotation))
+    ),
+
     /**
      * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/methods_and_instance_variables.html}
      */
@@ -332,7 +350,7 @@ module.exports = grammar({
       const className = seq(choice('self', $.type), '.');
       const parameterList = seq(
         '(',
-        optional(commaSep1(field('param', $.identifier))),
+        optional(commaSep1($.param)),
         ')'
       );
       return seq(
@@ -344,6 +362,26 @@ module.exports = grammar({
         'end'
       );
     },
+
+    // TODO: support method calls without parens
+    method_call: $ => {
+      const arg = field('arg', choice(
+        $._variable,
+        $._literal
+      ));
+      return prec(precedenceMap.methodCall, seq(
+        field('object', $._variable),
+        '.',
+        field('name', alias(token(seq(/[a-z]/, identifierRegex)), $.identifier)),
+        optional(choice(
+          seq('(', commaSep1(arg), ')'), // method call with parens
+          //seq(' ', commaSep1(arg)), // method call without parens
+        )),
+        optional($.block)
+      ));
+    },
+
+    // TODO: "bare-function" calls (like puts(1) and puts 1)
 
     type: $ => seq(
       choice(
@@ -366,7 +404,7 @@ module.exports = grammar({
     block: $ => {
       const paramList = seq(
         '|',
-        commaSep1(field('param', $.identifier)),
+        commaSep1($.param),
         '|'
       );
       return choice(
