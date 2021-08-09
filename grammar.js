@@ -14,7 +14,6 @@ module.exports = grammar({
   conflicts: $ => [
     [$._expression, $.assignment],
     [$.type, $.namedTupleLiteral],
-    [$.assignment, $.property]
   ],
 
   // stuff that can show up anywhere
@@ -26,8 +25,6 @@ module.exports = grammar({
   precedences: $ => [
     // TODO: more-specific operator precedence
     [$.binary_operation, $.assignment],
-    // TODO: figure out why foo.bar = 42 currently adds an "(ERROR)" node
-    [$.assignment, $.property],
   ],
 
   rules: {
@@ -436,7 +433,7 @@ module.exports = grammar({
         alias($.property, ''),
         optional(choice(
           seq('(', commaSep1(arg), ')'), // method call with parens
-          seq(/[ \t]+/, commaSep1(arg)), // method call without parens
+          commaSep1(arg), // method call without parens
         )),
         optional($.block)
       ));
