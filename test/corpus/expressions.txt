@@ -284,3 +284,29 @@ end
     )
   )
 )
+
+
+===============
+enum definition
+===============
+
+enum Color
+  Red
+  Green
+  Blue
+
+  def is_red?
+    self == Color::Red
+  end
+end
+
+---
+
+(program
+  (enum_definition name: (constant)
+    (constant) (constant) (constant)
+    (method_definition name: (identifier)
+      (binary_operation (local_variable) (operator) (constant (namespace)))
+    )
+  )
+)

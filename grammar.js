@@ -42,12 +42,13 @@ module.exports = grammar({
     _expression: $ => choice(
       $._literal                ,
       $.assignment              ,
+      $.binary_operation        ,
       $._variable               ,
       $.module_definition       ,
       $.class_definition        ,
       $.method_definition       ,
+	    $.enum_definition			    ,
       $.block                   ,
-      $.binary_operation        ,
       $.method_call             ,
     ),
 
@@ -278,13 +279,20 @@ module.exports = grammar({
     /**
      * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/constants.html}
      */
-    constant: $ => choice(
-      '__LINE__',
-      '__END_LINE__',
-      '__FILE__',
-      '__DIR__',
-      seq(/[A-Z]/, optional(identifierRegex))
-    ),
+    constant: $ => {
+      const constantName = seq(/[A-Z]/, optional(identifierRegex));
+      return choice(
+        '__LINE__',
+        '__END_LINE__',
+        '__FILE__',
+        '__DIR__',
+        constantName,
+        seq(
+          repeat1(alias(token(seq(constantName, '::')), $.namespace)),
+          alias(constantName, 'constant')
+        )
+      );
+    },
 
     _variable: $ => choice(
       $.local_variable,
@@ -363,6 +371,17 @@ module.exports = grammar({
       );
     },
 
+    /**
+     * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/enum.html}
+     */
+    enum_definition: $ => seq(
+      'enum',
+      field('name', $.constant),
+      repeat1($.constant),
+      repeat($.method_definition),
+      'end'
+    ),
+
     // TODO: support method calls without parens
     method_call: $ => {
       const arg = field('arg', choice(
@@ -384,13 +403,7 @@ module.exports = grammar({
     // TODO: "bare-function" calls (like puts(1) and puts 1)
 
     type: $ => seq(
-      choice(
-        alias($.constant, 'type'), // no namespace
-        seq(
-          repeat1(seq(alias($.constant, $.namespace), '::')),
-          alias($.constant, 'type')
-        )
-      ),
+      alias($.constant, 'type'),
       optional(seq(
         '(',
         commaSep1(field('generic_param', $.type)),

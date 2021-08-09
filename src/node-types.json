@@ -48,6 +48,10 @@
           "named": true
         },
         {
+          "type": "enum_definition",
+          "named": true
+        },
+        {
           "type": "float",
           "named": true
         },
@@ -185,6 +189,10 @@
             "named": true
           },
           {
+            "type": "enum_definition",
+            "named": true
+          },
+          {
             "type": "float",
             "named": true
           },
@@ -311,6 +319,10 @@
           "named": true
         },
         {
+          "type": "enum_definition",
+          "named": true
+        },
+        {
           "type": "float",
           "named": true
         },
@@ -423,6 +435,10 @@
         },
         {
           "type": "constant",
+          "named": true
+        },
+        {
+          "type": "enum_definition",
           "named": true
         },
         {
@@ -572,6 +588,10 @@
           "named": true
         },
         {
+          "type": "enum_definition",
+          "named": true
+        },
+        {
           "type": "float",
           "named": true
         },
@@ -647,7 +667,47 @@
   {
     "type": "constant",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "namespace",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "enum_definition",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "constant",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "method_definition",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "float",
@@ -700,6 +760,10 @@
           },
           {
             "type": "constant",
+            "named": true
+          },
+          {
+            "type": "enum_definition",
             "named": true
           },
           {
@@ -816,6 +880,10 @@
           },
           {
             "type": "constant",
+            "named": true
+          },
+          {
+            "type": "enum_definition",
             "named": true
           },
           {
@@ -943,6 +1011,10 @@
           },
           {
             "type": "constant",
+            "named": true
+          },
+          {
+            "type": "enum_definition",
             "named": true
           },
           {
@@ -1250,6 +1322,10 @@
           "named": true
         },
         {
+          "type": "enum_definition",
+          "named": true
+        },
+        {
           "type": "float",
           "named": true
         },
@@ -1373,6 +1449,10 @@
         },
         {
           "type": "constant",
+          "named": true
+        },
+        {
+          "type": "enum_definition",
           "named": true
         },
         {
@@ -1511,6 +1591,10 @@
             "named": true
           },
           {
+            "type": "enum_definition",
+            "named": true
+          },
+          {
             "type": "float",
             "named": true
           },
@@ -1583,11 +1667,6 @@
         ]
       }
     }
-  },
-  {
-    "type": "namespace",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "operator",
@@ -1670,6 +1749,10 @@
         },
         {
           "type": "constant",
+          "named": true
+        },
+        {
+          "type": "enum_definition",
           "named": true
         },
         {
@@ -1796,6 +1879,10 @@
         },
         {
           "type": "constant",
+          "named": true
+        },
+        {
+          "type": "enum_definition",
           "named": true
         },
         {
@@ -2000,10 +2087,6 @@
     "named": false
   },
   {
-    "type": "::",
-    "named": false
-  },
-  {
     "type": ";",
     "named": false
   },
@@ -2124,6 +2207,10 @@
     "named": true
   },
   {
+    "type": "constant",
+    "named": false
+  },
+  {
     "type": "def",
     "named": false
   },
@@ -2136,12 +2223,20 @@
     "named": false
   },
   {
+    "type": "enum",
+    "named": false
+  },
+  {
     "type": "false",
     "named": false
   },
   {
     "type": "module",
     "named": false
+  },
+  {
+    "type": "namespace",
+    "named": true
   },
   {
     "type": "nil",
