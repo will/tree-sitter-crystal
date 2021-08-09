@@ -1135,7 +1135,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "method_call"
+                  "name": "property"
                 }
               ]
             }
@@ -1157,7 +1157,7 @@
             ]
           },
           {
-            "type": "STRING",
+            "type": "PATTERN",
             "value": "="
           },
           {
@@ -1268,8 +1268,25 @@
           "type": "FIELD",
           "name": "name",
           "content": {
-            "type": "SYMBOL",
-            "name": "identifier"
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "@"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              },
+              {
+                "type": "SYMBOL",
+                "name": "identifier"
+              }
+            ]
           }
         },
         {
@@ -1469,36 +1486,50 @@
         }
       ]
     },
+    "property": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "object",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_variable"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "."
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "PATTERN",
+              "value": "[a-z][a-z0-9_]*[\\?!]?"
+            },
+            "named": true,
+            "value": "identifier"
+          }
+        }
+      ]
+    },
     "method_call": {
-      "type": "PREC_RIGHT",
+      "type": "PREC_LEFT",
       "value": 0,
       "content": {
         "type": "SEQ",
         "members": [
           {
-            "type": "FIELD",
-            "name": "object",
+            "type": "ALIAS",
             "content": {
               "type": "SYMBOL",
-              "name": "_variable"
-            }
-          },
-          {
-            "type": "STRING",
-            "value": "."
-          },
-          {
-            "type": "FIELD",
-            "name": "name",
-            "content": {
-              "type": "ALIAS",
-              "content": {
-                "type": "PATTERN",
-                "value": "[a-z][A-Za-z_]*"
-              },
-              "named": true,
-              "value": "identifier"
-            }
+              "name": "property"
+            },
+            "named": false,
+            "value": ""
           },
           {
             "type": "CHOICE",
@@ -2011,8 +2042,8 @@
       "namedTupleLiteral"
     ],
     [
-      "local_variable",
-      "method_call"
+      "assignment",
+      "property"
     ]
   ],
   "precedences": [
@@ -2033,7 +2064,7 @@
       },
       {
         "type": "SYMBOL",
-        "name": "method_call"
+        "name": "property"
       }
     ]
   ],

@@ -41,7 +41,8 @@ foo[:test] = foo[:otherTest]
   (assignment lhs: (local_variable) rhs: (assignment lhs: (local_variable) rhs: (integer)))
   (assignment 
     lhs: (index_expression target: (local_variable) key: (symbol)) 
-    rhs: (index_expression target: (local_variable) key: (symbol)))
+    rhs: (index_expression target: (local_variable) key: (symbol))
+  )
 )
 
 =================
@@ -325,6 +326,26 @@ end
   )
 )
 
+
+======
+struct
+======
+
+struct Point
+  def initialize(@x : Int32, @y : Int32)
+  end
+end
+
+---
+
+(program
+  (struct_definition name: (type)
+    (method_definition name: (identifier)
+      (param name: (identifier) type: (type))
+      (param name: (identifier) type: (type))
+    )
+  )
+)
 
 ==================
 require statements

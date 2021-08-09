@@ -14,7 +14,7 @@ module.exports = grammar({
   conflicts: $ => [
     [$._expression, $.assignment],
     [$.type, $.namedTupleLiteral],
-    [$.local_variable, $.method_call],
+    [$.assignment, $.property]
   ],
 
   // stuff that can show up anywhere
@@ -27,7 +27,7 @@ module.exports = grammar({
     // TODO: more-specific operator precedence
     [$.binary_operation, $.assignment],
     // TODO: figure out why foo.bar = 42 currently adds an "(ERROR)" node
-    [$.assignment, $.method_call],
+    [$.assignment, $.property],
   ],
 
   rules: {
@@ -342,10 +342,10 @@ module.exports = grammar({
       field('lhs', choice(
         $._variable, 
         $.index_expression,
-        $.method_call,
+        $.property,
       )),
       optional(field('type', $._typeAnnotation)),
-      '=',
+      /=/,
       field('rhs', choice($._variable, $._expression))
     )),
 
@@ -376,7 +376,7 @@ module.exports = grammar({
     },
 
     param: $ => seq(
-        field('name', $.identifier),
+        field('name', seq(optional('@'), $.identifier)),
         optional(field('type', $._typeAnnotation))
     ),
 
@@ -421,15 +421,19 @@ module.exports = grammar({
       'end'
     ),
 
+    property: $ => seq(
+        field('object', $._variable),
+        '.',
+        field('name', alias(/[a-z][a-z0-9_]*[\?!]?/, $.identifier)),
+    ),
+
     method_call: $ => {
       const arg = field('arg', choice(
         $._variable,
         $._literal
       ));
-      return prec.right(seq(
-        field('object', $._variable),
-        '.',
-        field('name', alias(/[a-z][A-Za-z_]*/, $.identifier)),
+      return prec.left(seq(
+        alias($.property, ''),
         optional(choice(
           seq('(', commaSep1(arg), ')'), // method call with parens
           seq(/[ \t]+/, commaSep1(arg)), // method call without parens

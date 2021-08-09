@@ -1,5 +1,43 @@
 [
   {
+    "type": "",
+    "named": false,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "object": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "class_variable",
+            "named": true
+          },
+          {
+            "type": "constant",
+            "named": true
+          },
+          {
+            "type": "instance_variable",
+            "named": true
+          },
+          {
+            "type": "local_variable",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "array",
     "named": true,
     "fields": {},
@@ -147,7 +185,7 @@
             "named": true
           },
           {
-            "type": "method_call",
+            "type": "property",
             "named": true
           }
         ]
@@ -1289,38 +1327,6 @@
             "named": true
           }
         ]
-      },
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      },
-      "object": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "class_variable",
-            "named": true
-          },
-          {
-            "type": "constant",
-            "named": true
-          },
-          {
-            "type": "instance_variable",
-            "named": true
-          },
-          {
-            "type": "local_variable",
-            "named": true
-          }
-        ]
       }
     },
     "children": {
@@ -1804,9 +1810,13 @@
     "named": true,
     "fields": {
       "name": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
+          {
+            "type": "@",
+            "named": false
+          },
           {
             "type": "identifier",
             "named": true
@@ -1958,6 +1968,44 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "property",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "object": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "class_variable",
+            "named": true
+          },
+          {
+            "type": "constant",
+            "named": true
+          },
+          {
+            "type": "instance_variable",
+            "named": true
+          },
+          {
+            "type": "local_variable",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -2408,10 +2456,6 @@
   },
   {
     "type": "<=>",
-    "named": false
-  },
-  {
-    "type": "=",
     "named": false
   },
   {
