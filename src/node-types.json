@@ -145,6 +145,10 @@
           {
             "type": "local_variable",
             "named": true
+          },
+          {
+            "type": "method_call",
+            "named": true
           }
         ]
       },

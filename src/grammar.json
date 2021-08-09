@@ -1115,7 +1115,7 @@
     },
     "assignment": {
       "type": "PREC_RIGHT",
-      "value": 1,
+      "value": 0,
       "content": {
         "type": "SEQ",
         "members": [
@@ -1132,6 +1132,10 @@
                 {
                   "type": "SYMBOL",
                   "name": "index_expression"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "method_call"
                 }
               ]
             }
@@ -1489,20 +1493,8 @@
             "content": {
               "type": "ALIAS",
               "content": {
-                "type": "TOKEN",
-                "content": {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "PATTERN",
-                      "value": "[a-z]"
-                    },
-                    {
-                      "type": "PATTERN",
-                      "value": "[^\\x00-\\x40\\x5B-\\x5E\\x60-\\x60\\x7B-\\x9F][^\\x00-\\x2F\\x3A-\\x40\\x5B-\\x5E\\x60-\\x60\\x7B-\\x9F]*[=!\\?]?"
-                    }
-                  ]
-                }
+                "type": "PATTERN",
+                "value": "[a-z][A-Za-z_]*"
               },
               "named": true,
               "value": "identifier"
@@ -1583,7 +1575,7 @@
                     "members": [
                       {
                         "type": "PATTERN",
-                        "value": "\\s+"
+                        "value": "[ \\t]+"
                       },
                       {
                         "type": "SEQ",
@@ -1856,7 +1848,7 @@
     },
     "binary_operation": {
       "type": "PREC_LEFT",
-      "value": 2,
+      "value": 0,
       "content": {
         "type": "SEQ",
         "members": [
@@ -2011,6 +2003,10 @@
   ],
   "conflicts": [
     [
+      "_expression",
+      "assignment"
+    ],
+    [
       "type",
       "namedTupleLiteral"
     ],
@@ -2019,7 +2015,28 @@
       "method_call"
     ]
   ],
-  "precedences": [],
+  "precedences": [
+    [
+      {
+        "type": "SYMBOL",
+        "name": "binary_operation"
+      },
+      {
+        "type": "SYMBOL",
+        "name": "assignment"
+      }
+    ],
+    [
+      {
+        "type": "SYMBOL",
+        "name": "assignment"
+      },
+      {
+        "type": "SYMBOL",
+        "name": "method_call"
+      }
+    ]
+  ],
   "externals": [],
   "inline": [],
   "supertypes": []
