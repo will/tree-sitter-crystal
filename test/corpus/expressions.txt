@@ -276,6 +276,8 @@ MyClass.static_method
 
 foo.bar(1, 2)
 
+foo.bar 1, 2
+
 my_array.each_slice(2) do |a: Int32, b: Int32|
   a + b
 end
@@ -286,6 +288,7 @@ end
 (program
   (method_call object: (local_variable) name: (identifier))
   (method_call object: (constant) name: (identifier))
+  (method_call object: (local_variable) name: (identifier) arg: (integer) arg: (integer))
   (method_call object: (local_variable) name: (identifier) arg: (integer) arg: (integer))
   (method_call object: (local_variable) name: (identifier) arg: (integer)
     (block 

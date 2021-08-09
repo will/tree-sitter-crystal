@@ -10,7 +10,6 @@ const identifierRegex = /[^\x00-\x40\x5B-\x5E\x60-\x60\x7B-\x9F][^\x00-\x2F\x3A-
 const precedenceMap = {
   assignment: 1,
   binary_operation: 2,
-  methodCall: 100,
 }
 
 module.exports = grammar({
@@ -420,19 +419,18 @@ module.exports = grammar({
       'end'
     ),
 
-    // TODO: support method calls without parens
     method_call: $ => {
       const arg = field('arg', choice(
         $._variable,
         $._literal
       ));
-      return prec(precedenceMap.methodCall, seq(
+      return prec.right(seq(
         field('object', $._variable),
         '.',
         field('name', alias(token(seq(/[a-z]/, identifierRegex)), $.identifier)),
         optional(choice(
           seq('(', commaSep1(arg), ')'), // method call with parens
-          //seq(' ', commaSep1(arg)), // method call without parens
+          seq(/\s+/, commaSep1(arg)), // method call without parens
         )),
         optional($.block)
       ));
