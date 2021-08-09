@@ -6,21 +6,15 @@ const commaSep1 = (term) => sepBy1(term, ',');
                           //        A-Z        _      a-z                  0-9      A-Z       _        a-z
 const identifierRegex = /[^\x00-\x40\x5B-\x5E\x60-\x60\x7B-\x9F][^\x00-\x2F\x3A-\x40\x5B-\x5E\x60-\x60\x7B-\x9F]*[=!\?]?/
 
-// TODO: more-specific operator precedence
-const precedenceMap = {
-  assignment: 1,
-  binary_operation: 2,
-  methodCall: 100,
-}
-
 module.exports = grammar({
   name: 'crystal',
 
   // Explicitly call out conflicting/overlapping rules so that Treesitter knows they're 
   //  *supposed* to be conflicting/overlapping, and can then make an intelligent decision.
   conflicts: $ => [
+    [$._expression, $.assignment],
     [$.type, $.namedTupleLiteral],
-    [$.local_variable, $.method_call],
+    [$.assignment, $.property]
   ],
 
   // stuff that can show up anywhere
@@ -29,12 +23,22 @@ module.exports = grammar({
     $.comment,
   ],
 
+  precedences: $ => [
+    // TODO: more-specific operator precedence
+    [$.binary_operation, $.assignment],
+    // TODO: figure out why foo.bar = 42 currently adds an "(ERROR)" node
+    [$.assignment, $.property],
+  ],
+
   rules: {
     program: $ => repeat($._statement),
 
     _statement: $ => seq(
       choice(
-        $._expression
+        $._expression,
+        $.require_statement,
+        $.include_statement,
+        $.extend_statement,
       ),
       choice(';', /\n/),
     ),
@@ -42,12 +46,14 @@ module.exports = grammar({
     _expression: $ => choice(
       $._literal                ,
       $.assignment              ,
+      $.binary_operation        ,
       $._variable               ,
       $.module_definition       ,
       $.class_definition        ,
       $.method_definition       ,
+      $.enum_definition			    ,
+      $.struct_definition       ,
       $.block                   ,
-      $.binary_operation        ,
       $.method_call             ,
     ),
 
@@ -261,6 +267,30 @@ module.exports = grammar({
     comment: $ => /#.*[^\n]/,
 
     /**
+     * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/requiring_files.html}
+     */
+    require_statement: $ => seq(
+      'require',
+      field('path', $.string)
+    ),
+
+    /**
+     * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/modules.html}
+     */
+    include_statement: $ => seq(
+      'include',
+      $.type
+    ),
+
+    /**
+     * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/modules.html}
+     */
+    extend_statement: $ => seq(
+      'extend',
+      choice('self', $.type)
+    ),
+
+    /**
      * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/local_variables.html}
      */
     local_variable: $ => seq(/[a-z_]/, optional(identifierRegex)),
@@ -278,13 +308,20 @@ module.exports = grammar({
     /**
      * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/constants.html}
      */
-    constant: $ => choice(
-      '__LINE__',
-      '__END_LINE__',
-      '__FILE__',
-      '__DIR__',
-      seq(/[A-Z]/, optional(identifierRegex))
-    ),
+    constant: $ => {
+      const constantName = seq(/[A-Z]/, optional(identifierRegex));
+      return choice(
+        '__LINE__',
+        '__END_LINE__',
+        '__FILE__',
+        '__DIR__',
+        constantName,
+        seq(
+          repeat1(alias(token(seq(constantName, '::')), $.namespace)),
+          alias(constantName, 'constant')
+        )
+      );
+    },
 
     _variable: $ => choice(
       $.local_variable,
@@ -301,14 +338,14 @@ module.exports = grammar({
     /**
      * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/assignment.html}
      */
-    assignment: $ => prec.right(precedenceMap.assignment, seq(
+    assignment: $ => prec.right(seq(
       field('lhs', choice(
         $._variable, 
-        $.index_expression
-        // TODO: "setters", like foo.bar = 42
+        $.index_expression,
+        $.property,
       )),
       optional(field('type', $._typeAnnotation)),
-      '=',
+      /=/,
       field('rhs', choice($._variable, $._expression))
     )),
 
@@ -339,7 +376,7 @@ module.exports = grammar({
     },
 
     param: $ => seq(
-        field('name', $.identifier),
+        field('name', seq(optional('@'), $.identifier)),
         optional(field('type', $._typeAnnotation))
     ),
 
@@ -363,19 +400,43 @@ module.exports = grammar({
       );
     },
 
-    // TODO: support method calls without parens
+    /**
+     * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/enum.html}
+     */
+    enum_definition: $ => seq(
+      'enum',
+      field('name', $.constant),
+      repeat1($.constant),
+      repeat($.method_definition),
+      'end'
+    ),
+
+    /**
+     * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/structs.html}
+     */
+    struct_definition: $ => seq(
+      'struct',
+      field('name', $.type),
+      repeat($._statement),
+      'end'
+    ),
+
+    property: $ => seq(
+        field('object', $._variable),
+        '.',
+        field('name', alias(/[a-z][a-z0-9_]*[\?!]?/, $.identifier)),
+    ),
+
     method_call: $ => {
       const arg = field('arg', choice(
         $._variable,
         $._literal
       ));
-      return prec(precedenceMap.methodCall, seq(
-        field('object', $._variable),
-        '.',
-        field('name', alias(token(seq(/[a-z]/, identifierRegex)), $.identifier)),
+      return prec.left(seq(
+        alias($.property, ''),
         optional(choice(
           seq('(', commaSep1(arg), ')'), // method call with parens
-          //seq(' ', commaSep1(arg)), // method call without parens
+          seq(/[ \t]+/, commaSep1(arg)), // method call without parens
         )),
         optional($.block)
       ));
@@ -384,13 +445,7 @@ module.exports = grammar({
     // TODO: "bare-function" calls (like puts(1) and puts 1)
 
     type: $ => seq(
-      choice(
-        alias($.constant, 'type'), // no namespace
-        seq(
-          repeat1(seq(alias($.constant, $.namespace), '::')),
-          alias($.constant, 'type')
-        )
-      ),
+      alias($.constant, 'type'),
       optional(seq(
         '(',
         commaSep1(field('generic_param', $.type)),
@@ -414,7 +469,7 @@ module.exports = grammar({
     },
 
     // TODO: operator precedence rules
-    binary_operation: $ => prec.left(precedenceMap.binary_operation, seq(
+    binary_operation: $ => prec.left(seq(
       $._expression,
       alias($._binary_operator, $.operator),
       $._expression

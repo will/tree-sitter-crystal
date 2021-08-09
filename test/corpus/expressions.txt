@@ -41,7 +41,8 @@ foo[:test] = foo[:otherTest]
   (assignment lhs: (local_variable) rhs: (assignment lhs: (local_variable) rhs: (integer)))
   (assignment 
     lhs: (index_expression target: (local_variable) key: (symbol)) 
-    rhs: (index_expression target: (local_variable) key: (symbol)))
+    rhs: (index_expression target: (local_variable) key: (symbol))
+  )
 )
 
 =================
@@ -143,6 +144,12 @@ module B
   end
 end
 
+module C
+  include A
+  extend B
+  extend self
+end
+
 ---
 
 (program
@@ -154,6 +161,11 @@ end
         (assignment lhs: (instance_variable) rhs: (local_variable))
       )
     )
+  )
+  (module_definition name: (type)
+    (include_statement (type))
+    (extend_statement (type))
+    (extend_statement)
   )
 )
 
@@ -265,6 +277,8 @@ MyClass.static_method
 
 foo.bar(1, 2)
 
+foo.bar 1, 2
+
 my_array.each_slice(2) do |a: Int32, b: Int32|
   a + b
 end
@@ -276,6 +290,7 @@ end
   (method_call object: (local_variable) name: (identifier))
   (method_call object: (constant) name: (identifier))
   (method_call object: (local_variable) name: (identifier) arg: (integer) arg: (integer))
+  (method_call object: (local_variable) name: (identifier) arg: (integer) arg: (integer))
   (method_call object: (local_variable) name: (identifier) arg: (integer)
     (block 
       (param name: (identifier) type: (type))
@@ -283,4 +298,65 @@ end
       (binary_operation (local_variable) (operator) (local_variable))
     )
   )
+)
+
+
+===============
+enum definition
+===============
+
+enum Color
+  Red
+  Green
+  Blue
+
+  def is_red?
+    self == Color::Red
+  end
+end
+
+---
+
+(program
+  (enum_definition name: (constant)
+    (constant) (constant) (constant)
+    (method_definition name: (identifier)
+      (binary_operation (local_variable) (operator) (constant (namespace)))
+    )
+  )
+)
+
+
+======
+struct
+======
+
+struct Point
+  def initialize(@x : Int32, @y : Int32)
+  end
+end
+
+---
+
+(program
+  (struct_definition name: (type)
+    (method_definition name: (identifier)
+      (param name: (identifier) type: (type))
+      (param name: (identifier) type: (type))
+    )
+  )
+)
+
+==================
+require statements
+==================
+
+require "foo"
+require "./foo.cr"
+
+---
+
+(program
+  (require_statement (string))
+  (require_statement (string))
 )
