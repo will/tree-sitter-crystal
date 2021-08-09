@@ -143,6 +143,12 @@ module B
   end
 end
 
+module C
+  include A
+  extend B
+  extend self
+end
+
 ---
 
 (program
@@ -154,6 +160,11 @@ end
         (assignment lhs: (instance_variable) rhs: (local_variable))
       )
     )
+  )
+  (module_definition name: (type)
+    (include_statement (type))
+    (extend_statement (type))
+    (extend_statement)
   )
 )
 
@@ -309,4 +320,19 @@ end
       (binary_operation (local_variable) (operator) (constant (namespace)))
     )
   )
+)
+
+
+==================
+require statements
+==================
+
+require "foo"
+require "./foo.cr"
+
+---
+
+(program
+  (require_statement (string))
+  (require_statement (string))
 )

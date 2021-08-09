@@ -34,7 +34,10 @@ module.exports = grammar({
 
     _statement: $ => seq(
       choice(
-        $._expression
+        $._expression,
+        $.require_statement,
+        $.include_statement,
+        $.extend_statement,
       ),
       choice(';', /\n/),
     ),
@@ -47,7 +50,8 @@ module.exports = grammar({
       $.module_definition       ,
       $.class_definition        ,
       $.method_definition       ,
-	    $.enum_definition			    ,
+      $.enum_definition			    ,
+      $.struct_definition       ,
       $.block                   ,
       $.method_call             ,
     ),
@@ -262,6 +266,30 @@ module.exports = grammar({
     comment: $ => /#.*[^\n]/,
 
     /**
+     * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/requiring_files.html}
+     */
+    require_statement: $ => seq(
+      'require',
+      field('path', $.string)
+    ),
+
+    /**
+     * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/modules.html}
+     */
+    include_statement: $ => seq(
+      'include',
+      $.type
+    ),
+
+    /**
+     * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/modules.html}
+     */
+    extend_statement: $ => seq(
+      'extend',
+      choice('self', $.type)
+    ),
+
+    /**
      * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/local_variables.html}
      */
     local_variable: $ => seq(/[a-z_]/, optional(identifierRegex)),
@@ -379,6 +407,16 @@ module.exports = grammar({
       field('name', $.constant),
       repeat1($.constant),
       repeat($.method_definition),
+      'end'
+    ),
+
+    /**
+     * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/structs.html}
+     */
+    struct_definition: $ => seq(
+      'struct',
+      field('name', $.type),
+      repeat($._statement),
       'end'
     ),
 

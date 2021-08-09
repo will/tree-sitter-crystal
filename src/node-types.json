@@ -104,6 +104,10 @@
           "named": true
         },
         {
+          "type": "struct_definition",
+          "named": true
+        },
+        {
           "type": "symbol",
           "named": true
         },
@@ -245,6 +249,10 @@
             "named": true
           },
           {
+            "type": "struct_definition",
+            "named": true
+          },
+          {
             "type": "symbol",
             "named": true
           },
@@ -379,6 +387,10 @@
           "named": true
         },
         {
+          "type": "struct_definition",
+          "named": true
+        },
+        {
           "type": "symbol",
           "named": true
         },
@@ -442,11 +454,19 @@
           "named": true
         },
         {
+          "type": "extend_statement",
+          "named": true
+        },
+        {
           "type": "float",
           "named": true
         },
         {
           "type": "hash",
+          "named": true
+        },
+        {
+          "type": "include_statement",
           "named": true
         },
         {
@@ -494,7 +514,15 @@
           "named": true
         },
         {
+          "type": "require_statement",
+          "named": true
+        },
+        {
           "type": "string",
+          "named": true
+        },
+        {
+          "type": "struct_definition",
           "named": true
         },
         {
@@ -592,11 +620,19 @@
           "named": true
         },
         {
+          "type": "extend_statement",
+          "named": true
+        },
+        {
           "type": "float",
           "named": true
         },
         {
           "type": "hash",
+          "named": true
+        },
+        {
+          "type": "include_statement",
           "named": true
         },
         {
@@ -640,7 +676,15 @@
           "named": true
         },
         {
+          "type": "require_statement",
+          "named": true
+        },
+        {
           "type": "string",
+          "named": true
+        },
+        {
+          "type": "struct_definition",
           "named": true
         },
         {
@@ -704,6 +748,21 @@
         },
         {
           "type": "method_definition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "extend_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "type",
           "named": true
         }
       ]
@@ -816,6 +875,10 @@
           },
           {
             "type": "string",
+            "named": true
+          },
+          {
+            "type": "struct_definition",
             "named": true
           },
           {
@@ -939,6 +1002,10 @@
             "named": true
           },
           {
+            "type": "struct_definition",
+            "named": true
+          },
+          {
             "type": "symbol",
             "named": true
           },
@@ -964,6 +1031,21 @@
     "type": "identifier",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "include_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "index_expression",
@@ -1067,6 +1149,10 @@
           },
           {
             "type": "string",
+            "named": true
+          },
+          {
+            "type": "struct_definition",
             "named": true
           },
           {
@@ -1326,11 +1412,19 @@
           "named": true
         },
         {
+          "type": "extend_statement",
+          "named": true
+        },
+        {
           "type": "float",
           "named": true
         },
         {
           "type": "hash",
+          "named": true
+        },
+        {
+          "type": "include_statement",
           "named": true
         },
         {
@@ -1378,7 +1472,15 @@
           "named": true
         },
         {
+          "type": "require_statement",
+          "named": true
+        },
+        {
           "type": "string",
+          "named": true
+        },
+        {
+          "type": "struct_definition",
           "named": true
         },
         {
@@ -1456,11 +1558,19 @@
           "named": true
         },
         {
+          "type": "extend_statement",
+          "named": true
+        },
+        {
           "type": "float",
           "named": true
         },
         {
           "type": "hash",
+          "named": true
+        },
+        {
+          "type": "include_statement",
           "named": true
         },
         {
@@ -1504,7 +1614,15 @@
           "named": true
         },
         {
+          "type": "require_statement",
+          "named": true
+        },
+        {
           "type": "string",
+          "named": true
+        },
+        {
+          "type": "struct_definition",
           "named": true
         },
         {
@@ -1647,6 +1765,10 @@
             "named": true
           },
           {
+            "type": "struct_definition",
+            "named": true
+          },
+          {
             "type": "symbol",
             "named": true
           },
@@ -1756,11 +1878,19 @@
           "named": true
         },
         {
+          "type": "extend_statement",
+          "named": true
+        },
+        {
           "type": "float",
           "named": true
         },
         {
           "type": "hash",
+          "named": true
+        },
+        {
+          "type": "include_statement",
           "named": true
         },
         {
@@ -1804,7 +1934,15 @@
           "named": true
         },
         {
+          "type": "require_statement",
+          "named": true
+        },
+        {
           "type": "string",
+          "named": true
+        },
+        {
+          "type": "struct_definition",
           "named": true
         },
         {
@@ -1824,9 +1962,167 @@
     "fields": {}
   },
   {
+    "type": "require_statement",
+    "named": true,
+    "fields": {
+      "path": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "string",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "struct_definition",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "binary_operation",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "bool",
+          "named": true
+        },
+        {
+          "type": "char",
+          "named": true
+        },
+        {
+          "type": "class_definition",
+          "named": true
+        },
+        {
+          "type": "class_variable",
+          "named": true
+        },
+        {
+          "type": "commandLiteral",
+          "named": true
+        },
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "enum_definition",
+          "named": true
+        },
+        {
+          "type": "extend_statement",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "hash",
+          "named": true
+        },
+        {
+          "type": "include_statement",
+          "named": true
+        },
+        {
+          "type": "index_expression",
+          "named": true
+        },
+        {
+          "type": "instance_variable",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "local_variable",
+          "named": true
+        },
+        {
+          "type": "method_call",
+          "named": true
+        },
+        {
+          "type": "method_definition",
+          "named": true
+        },
+        {
+          "type": "module_definition",
+          "named": true
+        },
+        {
+          "type": "namedTupleLiteral",
+          "named": true
+        },
+        {
+          "type": "nil",
+          "named": true
+        },
+        {
+          "type": "regex",
+          "named": true
+        },
+        {
+          "type": "require_statement",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "struct_definition",
+          "named": true
+        },
+        {
+          "type": "symbol",
+          "named": true
+        },
+        {
+          "type": "tuple",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "symbol",
@@ -1935,6 +2231,10 @@
         },
         {
           "type": "string",
+          "named": true
+        },
+        {
+          "type": "struct_definition",
           "named": true
         },
         {
@@ -2227,7 +2527,15 @@
     "named": false
   },
   {
+    "type": "extend",
+    "named": false
+  },
+  {
     "type": "false",
+    "named": false
+  },
+  {
+    "type": "include",
     "named": false
   },
   {
@@ -2247,7 +2555,15 @@
     "named": false
   },
   {
+    "type": "require",
+    "named": false
+  },
+  {
     "type": "self",
+    "named": false
+  },
+  {
+    "type": "struct",
     "named": false
   },
   {
