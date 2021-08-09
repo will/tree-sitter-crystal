@@ -1605,59 +1605,50 @@
                     "type": "SEQ",
                     "members": [
                       {
-                        "type": "PATTERN",
-                        "value": "[ \\t]+"
+                        "type": "FIELD",
+                        "name": "arg",
+                        "content": {
+                          "type": "CHOICE",
+                          "members": [
+                            {
+                              "type": "SYMBOL",
+                              "name": "_variable"
+                            },
+                            {
+                              "type": "SYMBOL",
+                              "name": "_literal"
+                            }
+                          ]
+                        }
                       },
                       {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "FIELD",
-                            "name": "arg",
-                            "content": {
-                              "type": "CHOICE",
-                              "members": [
-                                {
-                                  "type": "SYMBOL",
-                                  "name": "_variable"
-                                },
-                                {
-                                  "type": "SYMBOL",
-                                  "name": "_literal"
-                                }
-                              ]
-                            }
-                          },
-                          {
-                            "type": "REPEAT",
-                            "content": {
-                              "type": "SEQ",
-                              "members": [
-                                {
-                                  "type": "STRING",
-                                  "value": ","
-                                },
-                                {
-                                  "type": "FIELD",
-                                  "name": "arg",
-                                  "content": {
-                                    "type": "CHOICE",
-                                    "members": [
-                                      {
-                                        "type": "SYMBOL",
-                                        "name": "_variable"
-                                      },
-                                      {
-                                        "type": "SYMBOL",
-                                        "name": "_literal"
-                                      }
-                                    ]
+                        "type": "REPEAT",
+                        "content": {
+                          "type": "SEQ",
+                          "members": [
+                            {
+                              "type": "STRING",
+                              "value": ","
+                            },
+                            {
+                              "type": "FIELD",
+                              "name": "arg",
+                              "content": {
+                                "type": "CHOICE",
+                                "members": [
+                                  {
+                                    "type": "SYMBOL",
+                                    "name": "_variable"
+                                  },
+                                  {
+                                    "type": "SYMBOL",
+                                    "name": "_literal"
                                   }
-                                }
-                              ]
+                                ]
+                              }
                             }
-                          }
-                        ]
+                          ]
+                        }
                       }
                     ]
                   }
@@ -2040,10 +2031,6 @@
     [
       "type",
       "namedTupleLiteral"
-    ],
-    [
-      "assignment",
-      "property"
     ]
   ],
   "precedences": [
@@ -2055,16 +2042,6 @@
       {
         "type": "SYMBOL",
         "name": "assignment"
-      }
-    ],
-    [
-      {
-        "type": "SYMBOL",
-        "name": "assignment"
-      },
-      {
-        "type": "SYMBOL",
-        "name": "property"
       }
     ]
   ],
