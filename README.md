@@ -42,8 +42,12 @@ A WIP [tree-sitter](https://tree-sitter.github.io/) grammar for [Crystal](https:
 	- [x] class variables
 	- [x] constants
 - [ ] Control expressions
-	- [ ] if/then/else
+	- [ ] if/else
+		- [ ] "block-level" form (`if something ; stuff ; else ; end`)
+		- [ ] "suffix" form (`foo = bar if something`)
 	- [ ] unless
+		- [ ] "block-level" form (`unless something ; stuff ; else ; end`)
+		- [ ] "suffix" form (`foo = bar unless something`)
 	- [ ] case
 	- [ ] while
 	- [ ] until 
