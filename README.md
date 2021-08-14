@@ -52,11 +52,11 @@ A WIP [tree-sitter](https://tree-sitter.github.io/) grammar for [Crystal](https:
 	- [ ] while
 	- [ ] until 
 - [x] `require` statements
-- [ ] Type grammar
+- [x] Type grammar
 	- [x] Basic "bare" types (e.g. `Foo`)
 	- [x] Namespaced types (e.g. `Some::Namespace::Foo`)
 	- [x] Generic types (e.g. `Foo(T)` and `Foo(A, B)`)
-	- [ ] Union types
+	- [x] Union types
 	- [x] Class definitions
 	- [x] Module definitions
 		- [x] `include` statements
@@ -66,7 +66,7 @@ A WIP [tree-sitter](https://tree-sitter.github.io/) grammar for [Crystal](https:
 		- [x] in variable declarations
 		- [x] in method parameter declarations
 		- [x] as method return types
-	- [ ] `alias` statements
+	- [x] `alias` statements
 - [ ] Blocks
 	- [x] `do` blocks (with and without parameters)
 	- [x] `{|x| whatever }` blocks (with parameters only)

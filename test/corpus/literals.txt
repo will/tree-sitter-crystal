@@ -251,8 +251,8 @@ hash
     key: (integer) value: (string)
     key: (char) value: (string)
   )
-  (hash key_type: (type) value_type: (type))
-  (hash key_type: (type (namespace)) value_type: (type (namespace) generic_param: (type)))
+  (hash key_type: (type_identifier) value_type: (type_identifier))
+  (hash key_type: (type_identifier (namespace)) value_type: (generic_type (type_identifier (namespace)) (type_arguments (type_identifier))))
 )
 
 =====
@@ -304,8 +304,8 @@ NamedTuple(name: String, year: Int32)
   )
   (namedTupleLiteral key: (string) value: (integer))
   (namedTupleLiteral 
-    key_name: (identifier) value_type: (type)
-    key_name: (identifier) value_type: (type)
+    key_name: (identifier) value_type: (type_identifier)
+    key_name: (identifier) value_type: (type_identifier)
   )
 )
 

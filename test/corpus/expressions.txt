@@ -37,8 +37,8 @@ a, b = stuff
 ---
 (program
   (assignment lhs: (local_variable) rhs: (integer))
-  (assignment lhs: (local_variable) type: (type) rhs: (integer))
-  (assignment lhs: (local_variable) type: (type) rhs: (string))
+  (assignment lhs: (local_variable) type: (type_identifier) rhs: (integer))
+  (assignment lhs: (local_variable) type: (type_identifier) rhs: (string))
   (assignment lhs: (instance_variable) rhs: (string))
   (assignment lhs: (class_variable) rhs: (array (integer) (integer) (integer)))
   (assignment lhs: (constant) rhs: (float))
@@ -95,15 +95,15 @@ end
     (assignment lhs: (instance_variable) rhs: (bool))
   )
   (method_definition name: (identifier) 
-    (param name: (identifier) type: (type))
+    (param name: (identifier) type: (type_identifier))
     (assignment lhs: (instance_variable) rhs: (local_variable))
   )
-  (method_definition name: (identifier) return_type: (type)
+  (method_definition name: (identifier) return_type: (type_identifier)
     (instance_variable)
   )
   (method_definition name: (identifier) 
-    (param name: (identifier) type: (type))
-    return_type: (type)
+    (param name: (identifier) type: (type_identifier))
+    return_type: (type_identifier)
     (binary_operation (string) (operator) (local_variable))
   )
   (method_definition class_name: (self) name: (identifier)
@@ -146,22 +146,31 @@ end
 ---
 
 (program
-  (class_definition name: (type))
-  (class_definition name: (type)
+  (class_definition name: (type_identifier))
+  (class_definition name: (type_identifier)
     (assignment lhs: (constant) rhs: (float))
   )
-  (class_definition name: (type) superclass: (type)
+  (class_definition name: (type_identifier) superclass: (type_identifier)
     (assignment lhs: (class_variable) rhs: (symbol))
   )
-  (class_definition name: (type generic_param: (type)) superclass: (type)
+  (class_definition 
+    name: (generic_type (type_identifier) (type_arguments (type_identifier)))
+    superclass: (type_identifier)
     (assignment lhs: (instance_variable) rhs: (string))
   )
-  (class_definition name: (type generic_param: (type) generic_param: (type)) superclass: (type)
+  (class_definition 
+    name: (generic_type (type_identifier) (type_arguments (type_identifier) (type_identifier)))
+    superclass: (type_identifier)
     (assignment lhs: (local_variable) rhs: (integer))
   )
-  (class_definition name: (type generic_param: (type)) superclass: (type)
+  (class_definition 
+    name: (generic_type (type_identifier) (type_arguments (type_identifier)))
+    superclass: (type_identifier)
     (method_definition name: (identifier) 
-      (param name: (identifier) type: (type generic_param: (type)))
+      (param 
+        name: (identifier) 
+        type: (generic_type (type_identifier) (type_arguments (type_identifier)))
+      )
       (assignment lhs: (instance_variable) rhs: (local_variable))
     )
   )
@@ -191,18 +200,18 @@ end
 ---
 
 (program
-  (module_definition name: (type))
-  (module_definition name: (type)
-    (class_definition name: (type)
+  (module_definition name: (type_identifier))
+  (module_definition name: (type_identifier)
+    (class_definition name: (type_identifier)
       (method_definition name: (identifier) 
-        (param name: (identifier) type: (type))
+        (param name: (identifier) type: (type_identifier))
         (assignment lhs: (instance_variable) rhs: (local_variable))
       )
     )
   )
-  (module_definition name: (type)
-    (include_statement (type))
-    (extend_statement (type))
+  (module_definition name: (type_identifier)
+    (include_statement (type_identifier))
+    (extend_statement (type_identifier))
     (extend_statement)
   )
 )
@@ -216,7 +225,7 @@ do
   foo
 end
 
-do |a: Int32, b: String|
+do |a, b|
   foo = a
   bar = b
   [foo, bar]
@@ -230,16 +239,12 @@ end
     (assignment lhs: (local_variable) rhs: (integer))
     (local_variable)
   )
-  (block 
-    (param name: (identifier) type: (type))
-    (param name: (identifier) type: (type))
+  (block (param) (param)
     (assignment lhs: (local_variable) rhs: (local_variable))
     (assignment lhs: (local_variable) rhs: (local_variable))
     (array (local_variable) (local_variable))
   )
-  (block 
-    (param name: (identifier)) 
-    (param name: (identifier))
+  (block (param) (param)
     (local_variable)
   )
 )
@@ -317,7 +322,7 @@ foo.bar(1, 2)
 
 foo.bar 1, 2
 
-my_array.each_slice(2) do |a: Int32, b: Int32|
+my_array.each_slice(2) do |a, b|
   a + b
 end
 
@@ -330,9 +335,7 @@ end
   (method_call object: (local_variable) name: (identifier) arg: (integer) arg: (integer))
   (method_call object: (local_variable) name: (identifier) arg: (integer) arg: (integer))
   (method_call object: (local_variable) name: (identifier) arg: (integer)
-    (block 
-      (param name: (identifier) type: (type))
-      (param name: (identifier) type: (type))
+    (block (param) (param)
       (binary_operation (local_variable) (operator) (local_variable))
     )
   )
@@ -356,7 +359,7 @@ end
 ---
 
 (program
-  (enum_definition name: (constant)
+  (enum_definition name: (type_identifier)
     (constant) (constant) (constant)
     (method_definition name: (identifier)
       (binary_operation (local_variable) (operator) (constant (namespace)))
@@ -377,10 +380,10 @@ end
 ---
 
 (program
-  (struct_definition name: (type)
+  (struct_definition name: (type_identifier)
     (method_definition name: (identifier)
-      (param name: (identifier) type: (type))
-      (param name: (identifier) type: (type))
+      (param name: (identifier) type: (type_identifier))
+      (param name: (identifier) type: (type_identifier))
     )
   )
 )
@@ -397,4 +400,27 @@ require "./foo.cr"
 (program
   (require_statement (string))
   (require_statement (string))
+)
+
+================================
+alias statements
+================================
+
+alias Foo = Bar
+alias Operator =  Plus | Minus
+alias Operation = Add(Expr, Expr) | Subtract(Expr, Expr)
+
+
+---
+
+(program
+  (alias_statement lhs: (type_identifier) rhs: (type_identifier))
+  (alias_statement lhs: (type_identifier) rhs: (union_type (type_identifier) (type_identifier)))
+  (alias_statement 
+    lhs: (type_identifier) 
+    rhs: (union_type 
+      (generic_type (type_identifier) (type_arguments (type_identifier) (type_identifier)))
+      (generic_type (type_identifier) (type_arguments (type_identifier) (type_identifier)))
+    )
+  )
 )

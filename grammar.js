@@ -13,7 +13,8 @@ module.exports = grammar({
   //  *supposed* to be conflicting/overlapping, and can then make an intelligent decision.
   conflicts: $ => [
     [$._expression, $.assignment],
-    [$.type, $.namedTupleLiteral],
+    [$._type, $.namedTupleLiteral],
+    [$.hash, $.union_type],
   ],
 
   // stuff that can show up anywhere
@@ -27,6 +28,7 @@ module.exports = grammar({
     [$.binary_operation, $.assignment],
     [$.assignment, $._literal],
     [$._typeAnnotation, $._statement],
+    [$.union_type, $._typeAnnotation],
   ],
 
   rules: {
@@ -40,6 +42,7 @@ module.exports = grammar({
         $.require_statement,
         $.include_statement,
         $.extend_statement,
+        $.alias_statement,
       ),
       $._terminator
     ),
@@ -166,9 +169,9 @@ module.exports = grammar({
         '{',
         '}',
         'of',
-        field('key_type', $.type),
+        field('key_type', $._type),
         '=>',
-        field('value_type', $.type)
+        field('value_type', $._type)
       );
       return choice(
         nonEmptyHash,
@@ -219,7 +222,7 @@ module.exports = grammar({
       const keyAndValueTypeDeclaration = seq(
         field('key_name', $.identifier),
         ':',
-        field('value_type', $.type)
+        field('value_type', $._type)
       );
       return choice(
         seq(
@@ -280,7 +283,7 @@ module.exports = grammar({
      */
     include_statement: $ => seq(
       'include',
-      $.type
+      $._type
     ),
 
     /**
@@ -288,7 +291,7 @@ module.exports = grammar({
      */
     extend_statement: $ => seq(
       'extend',
-      choice('self', $.type)
+      choice('self', $._type)
     ),
 
     /**
@@ -333,7 +336,7 @@ module.exports = grammar({
 
     _typeAnnotation: $ => seq(
       ':',
-      $.type
+      $._type
     ),
 
     /**
@@ -359,7 +362,7 @@ module.exports = grammar({
     module_definition: $ => {
       return seq(
         'module',
-        field('name', $.type),
+        field('name', $._type),
         repeat($._statement),
         'end'
       );
@@ -372,8 +375,8 @@ module.exports = grammar({
     class_definition: $ => {
       return seq(
         'class',
-        field('name', $.type),
-        optional(seq('<', field('superclass', $.type))),
+        field('name', $._type),
+        optional(seq('<', field('superclass', $._type))),
         repeat($._statement),
         'end'
       );
@@ -388,7 +391,7 @@ module.exports = grammar({
      * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/methods_and_instance_variables.html}
      */
     method_definition: $ => { 
-      const className = seq(choice(alias('self', $.self), $.type), '.');
+      const className = seq(choice(alias('self', $.self), $._type), '.');
       const parameterList = seq(
         '(',
         optional(commaSep1($.param)),
@@ -411,7 +414,7 @@ module.exports = grammar({
      */
     enum_definition: $ => seq(
       'enum',
-      field('name', $.constant),
+      field('name', alias($.constant, $.type_identifier)),
       repeat1($.constant),
       repeat($.method_definition),
       'end'
@@ -422,7 +425,7 @@ module.exports = grammar({
      */
     struct_definition: $ => seq(
       'struct',
-      field('name', $.type),
+      field('name', $._type),
       repeat($._statement),
       'end'
     ),
@@ -448,15 +451,44 @@ module.exports = grammar({
       ));
     },
 
-    // TODO: "bare-function" calls (like puts(1) and puts 1)
+    _type_identifier: $ => alias($.constant, $.type_identifier),
+    generic_type: $ => seq(
+      $._type_identifier,
+      $.type_arguments
+    ),
+    type_arguments: $ => seq(
+      '(',
+      commaSep1($._type),
+      ')'
+    ),
+    union_type: $ => prec.left(seq(
+      $._type,
+      '|',
+      $._type
+    )),
+    _type: $ => choice(
+      $._type_identifier,
+      $.generic_type,
+      $.union_type
+    ),
 
-    type: $ => seq(
-      alias($.constant, 'type'),
-      optional(seq(
-        '(',
-        commaSep1(field('generic_param', $.type)),
-        ')'
-      ))
+    type: $ => { 
+      const term = seq(
+        $._type_identifier,
+        optional(seq(
+          '(',
+          commaSep1(field('generic_param', $.type)),
+          ')'
+        ))
+      );
+      return prec.left(seq(term, repeat(seq('|', term))));
+    },
+
+    alias_statement: $ => seq(
+      'alias',
+      field('lhs', choice($.generic_type, $._type_identifier)),
+      '=',
+      field('rhs', $._type)
     ),
 
     /**
@@ -465,7 +497,7 @@ module.exports = grammar({
     block: $ => {
       const paramList = seq(
         '|',
-        commaSep1($.param),
+        commaSep1(alias($.local_variable, $.param)),
         '|'
       );
       return choice(
