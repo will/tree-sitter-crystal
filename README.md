@@ -61,7 +61,7 @@ A WIP [tree-sitter](https://tree-sitter.github.io/) grammar for [Crystal](https:
 	- [x] Type annotations  
 		- [x] in variable declarations
 		- [x] in method parameter declarations
-		- [ ] as method return types
+		- [x] as method return types
 	- [ ] `alias` statements
 - [ ] Blocks
 	- [x] `do` blocks (with and without parameters)

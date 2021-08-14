@@ -1354,7 +1354,7 @@
           },
           {
             "type": "self",
-            "named": false
+            "named": true
           },
           {
             "type": "type",
@@ -1368,6 +1368,20 @@
         "types": [
           {
             "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "return_type": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": ":",
+            "named": false
+          },
+          {
+            "type": "type",
             "named": true
           }
         ]
@@ -2609,6 +2623,10 @@
   {
     "type": "self",
     "named": false
+  },
+  {
+    "type": "self",
+    "named": true
   },
   {
     "type": "struct",

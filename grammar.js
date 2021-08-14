@@ -26,10 +26,13 @@ module.exports = grammar({
     // TODO: more-specific operator precedence
     [$.binary_operation, $.assignment],
     [$.assignment, $._literal],
+    [$._typeAnnotation, $._statement],
   ],
 
   rules: {
     program: $ => repeat($._statement),
+
+    _terminator: $ => choice(';', /\n/),
 
     _statement: $ => seq(
       choice(
@@ -38,7 +41,7 @@ module.exports = grammar({
         $.include_statement,
         $.extend_statement,
       ),
-      choice(';', /\n/),
+      $._terminator
     ),
 
     _expression: $ => choice(
@@ -385,7 +388,7 @@ module.exports = grammar({
      * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/methods_and_instance_variables.html}
      */
     method_definition: $ => { 
-      const className = seq(choice('self', $.type), '.');
+      const className = seq(choice(alias('self', $.self), $.type), '.');
       const parameterList = seq(
         '(',
         optional(commaSep1($.param)),
@@ -396,6 +399,8 @@ module.exports = grammar({
         optional(field('class_name', className)), // if this is a class-method definition
         field('name', $.identifier),
         optional(parameterList),
+        optional(field('return_type', $._typeAnnotation)),
+        $._terminator,
         repeat($._statement),
         'end'
       );

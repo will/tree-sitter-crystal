@@ -73,6 +73,18 @@ def set_message(message: String)
   @message = message
 end
 
+def get_name : String
+  @name
+end
+
+def get_greeting(name: String) : String
+  "Hello, " + name
+end
+
+def self.arrayIt(a, b, c)
+  [a, b, c]
+end
+
 ---
 
 (program
@@ -85,6 +97,20 @@ end
   (method_definition name: (identifier) 
     (param name: (identifier) type: (type))
     (assignment lhs: (instance_variable) rhs: (local_variable))
+  )
+  (method_definition name: (identifier) return_type: (type)
+    (instance_variable)
+  )
+  (method_definition name: (identifier) 
+    (param name: (identifier) type: (type))
+    return_type: (type)
+    (binary_operation (string) (operator) (local_variable))
+  )
+  (method_definition class_name: (self) name: (identifier)
+    (param name: (identifier))
+    (param name: (identifier))
+    (param name: (identifier))
+    (array (local_variable) (local_variable) (local_variable))
   )
 )
 

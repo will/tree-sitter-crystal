@@ -8,6 +8,19 @@
         "name": "_statement"
       }
     },
+    "_terminator": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": ";"
+        },
+        {
+          "type": "PATTERN",
+          "value": "\\n"
+        }
+      ]
+    },
     "_statement": {
       "type": "SEQ",
       "members": [
@@ -33,17 +46,8 @@
           ]
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": ";"
-            },
-            {
-              "type": "PATTERN",
-              "value": "\\n"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_terminator"
         }
       ]
     },
@@ -1365,7 +1369,12 @@
                     "type": "CHOICE",
                     "members": [
                       {
-                        "type": "STRING",
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "STRING",
+                          "value": "self"
+                        },
+                        "named": true,
                         "value": "self"
                       },
                       {
@@ -1447,6 +1456,26 @@
               "type": "BLANK"
             }
           ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "return_type",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_typeAnnotation"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_terminator"
         },
         {
           "type": "REPEAT",
@@ -2090,6 +2119,16 @@
       {
         "type": "SYMBOL",
         "name": "_literal"
+      }
+    ],
+    [
+      {
+        "type": "SYMBOL",
+        "name": "_typeAnnotation"
+      },
+      {
+        "type": "SYMBOL",
+        "name": "_statement"
       }
     ]
   ],
