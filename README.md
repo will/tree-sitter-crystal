@@ -73,6 +73,7 @@ A WIP [tree-sitter](https://tree-sitter.github.io/) grammar for [Crystal](https:
 	- [ ] `begin`...`rescue`...`end` blocks
 - [x] Method definitions
 - [x] Method calls
+- [ ] "Bare" function calls (like `puts 1` and `puts(1)`)
 - [ ] Splats
 	- [ ] in method calls
 	- [ ] in method definitions
