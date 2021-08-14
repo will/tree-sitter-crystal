@@ -32,6 +32,8 @@ foo[:test] = foo[:otherTest]
 
 foo.bar = 4
 
+a, b = stuff
+
 ---
 (program
   (assignment lhs: (local_variable) rhs: (integer))
@@ -48,6 +50,10 @@ foo.bar = 4
   (assignment
     lhs: (property object: (local_variable) name: (identifier))
     rhs: (integer)
+  )
+  (assignment
+    lhs: (local_variable) lhs: (local_variable)
+    rhs: (local_variable)
   )
 )
 

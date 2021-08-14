@@ -26,13 +26,13 @@ A WIP [tree-sitter](https://tree-sitter.github.io/) grammar for [Crystal](https:
 	- [ ] command
 		- [x] literals
 		- [ ] interpolation
-- [ ] Assignment
+- [x] Assignment
 	- [x] to local var
 	- [x] to instance var
 	- [x] to class var
 	- [x] to constant
 	- [x] to "assignment methods"/properties
-	- [ ] multiple-assignment
+	- [x] multiple-assignment
 - [ ] Binary operations
 	- [x] basic support
 	- [ ] per-operator precedence definitions

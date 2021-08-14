@@ -25,6 +25,7 @@ module.exports = grammar({
   precedences: $ => [
     // TODO: more-specific operator precedence
     [$.binary_operation, $.assignment],
+    [$.assignment, $._literal],
   ],
 
   rules: {
@@ -335,16 +336,19 @@ module.exports = grammar({
     /**
      * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/assignment.html}
      */
-    assignment: $ => prec.right(seq(
-      field('lhs', choice(
-        $._variable, 
+    assignment: $ => {
+      const target = choice(
+        $._variable,
         $.index_expression,
-        $.property,
-      )),
-      optional(field('type', $._typeAnnotation)),
-      /=/,
-      field('rhs', choice($._variable, $._expression))
-    )),
+        $.property
+      );
+      return prec.right(seq(
+        commaSep1(field('lhs', target)),
+        optional(field('type', $._typeAnnotation)),
+        /=/,
+        field('rhs', choice($._variable, $._expression))
+      ));
+    },
 
     /**
      * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/modules.html}
