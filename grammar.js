@@ -36,7 +36,7 @@ module.exports = grammar({
     [$.hash, $.union_type],
   ],
 
-  // stuff that can show up anywhere
+  // stuff that can show up anywhere/symbo
   extras: $ => [
     /\s/, // we have to include this, or else tree-sitter assumes we're handling whitespace all manually
     $.comment,
@@ -124,11 +124,12 @@ module.exports = grammar({
       /[+\-]?[1-9][0-9_]*(i8|i16|i32|i64|u8|u16|u32|u64)?/
     ),
 
-    symbol: $ => seq(':', choice(
-      identifierRegex(),
-      $._operator,
-      seq('"', repeat(choice(/[^"]/, '\"')), '"'),
-    )),
+    symbol: $ => choice(
+      // Operator symbols
+      /:([\+\-%\/&\|\^]|(\*\*)|(\*)|(>>)|(<<)|(===)|(==)|(!=)|(<=>)|(<=)|(>=)|(<)|(>)|(\[\]=)|(\[\]\?)|(\[\])|(!~)|(=~)|(!)|(~))/,
+      identifierRegex(/:/), // Unquoted symbols,
+      /:"(\\"|[^"])*"/, // Quoted symbols
+    ),
 
     /**
 	   * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/literals/char.html}

@@ -1178,11 +1178,6 @@
     }
   },
   {
-    "type": "identifier",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "include_statement",
     "named": true,
     "fields": {},
@@ -2836,6 +2831,10 @@
     "named": false
   },
   {
+    "type": "identifier",
+    "named": true
+  },
+  {
     "type": "include",
     "named": false
   },
@@ -2869,11 +2868,11 @@
   },
   {
     "type": "self",
-    "named": false
+    "named": true
   },
   {
     "type": "self",
-    "named": true
+    "named": false
   },
   {
     "type": "struct",
