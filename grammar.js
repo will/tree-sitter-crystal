@@ -3,8 +3,27 @@ const sepBy1 = (term, separator) => seq(
   repeat(seq(separator, term))
 );
 const commaSep1 = (term) => sepBy1(term, ',');
-                          //        A-Z        _      a-z                  0-9      A-Z       _        a-z
-const identifierRegex = /[^\x00-\x40\x5B-\x5E\x60-\x60\x7B-\x9F][^\x00-\x2F\x3A-\x40\x5B-\x5E\x60-\x60\x7B-\x9F]*[=!\?]?/
+
+/**
+ * Concatenates all given regex patterns, throwing away any flags.
+ * @param  {...RegExp} regexes 
+ * @returns {RegExp}
+ */
+const concatRegexes = (...regexes) => {
+  return regexes.reduce((result, currentRegex) => new RegExp(
+    result.source + currentRegex.source
+  ));
+}
+
+/**
+ * Returns a regex for any valid Crystal identifier, beginning with `start`.
+ *  The default value of `start` is a regex for [A-Za-z_], plus any unicode char after 0x9F
+ * @param {Regexp} start
+ * @returns {RegExp}
+ */
+const identifierRegex = (start = /[^\x00-\x40\x5B-\x5E\x60-\x60\x7B-\x9F]/) => {
+  return concatRegexes(start, /[^\x00-\x2F\x3A-\x40\x5B-\x5E\x60-\x60\x7B-\x9F]*[=!\?]?/);
+}
 
 module.exports = grammar({
   name: 'crystal',
@@ -17,7 +36,7 @@ module.exports = grammar({
     [$.hash, $.union_type],
   ],
 
-  // stuff that can show up anywhere
+  // stuff that can show up anywhere/symbo
   extras: $ => [
     /\s/, // we have to include this, or else tree-sitter assumes we're handling whitespace all manually
     $.comment,
@@ -61,7 +80,7 @@ module.exports = grammar({
       $.method_call             ,
     ),
 
-    identifier: $ => identifierRegex,
+    identifier: $ => identifierRegex(),
 
     nil: $ => 'nil',
     bool: $ => choice('true', 'false'),
@@ -105,11 +124,12 @@ module.exports = grammar({
       /[+\-]?[1-9][0-9_]*(i8|i16|i32|i64|u8|u16|u32|u64)?/
     ),
 
-    symbol: $ => seq(':', choice(
-      identifierRegex,
-      $._operator,
-      seq('"', repeat(choice(/[^"]/, '\"')), '"'),
-    )),
+    symbol: $ => choice(
+      // Operator symbols
+      /:([\+\-%\/&\|\^]|(\*\*)|(\*)|(>>)|(<<)|(===)|(==)|(!=)|(<=>)|(<=)|(>=)|(<)|(>)|(\[\]=)|(\[\]\?)|(\[\])|(!~)|(=~)|(!)|(~))/,
+      identifierRegex(/:/), // Unquoted symbols,
+      /:"(\\"|[^"])*"/, // Quoted symbols
+    ),
 
     /**
 	   * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/literals/char.html}
@@ -297,23 +317,23 @@ module.exports = grammar({
     /**
      * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/local_variables.html}
      */
-    local_variable: $ => seq(/[a-z_]/, optional(identifierRegex)),
+    local_variable: $ => identifierRegex(/[a-z_]/),
 
     /**
      * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/methods_and_instance_variables.html}
      */
-    instance_variable: $ => seq('@', /[a-z_]/, optional(identifierRegex)),
+    instance_variable: $ => identifierRegex(/@[a-z_]/),
 
     /**
      * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/class_variables.html}
      */
-    class_variable: $ => seq('@@', /[a-z_]/, optional(identifierRegex)),
+    class_variable: $ => identifierRegex(/@@[a-z_]/),
 
     /**
      * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/constants.html}
      */
     constant: $ => {
-      const constantName = seq(/[A-Z]/, optional(identifierRegex));
+      const constantName = identifierRegex(/[A-Z]/);
       return choice(
         '__LINE__',
         '__END_LINE__',

@@ -164,53 +164,19 @@
       ]
     },
     "symbol": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
-          "type": "STRING",
-          "value": ":"
+          "type": "PATTERN",
+          "value": ":([\\+\\-%\\/&\\|\\^]|(\\*\\*)|(\\*)|(>>)|(<<)|(===)|(==)|(!=)|(<=>)|(<=)|(>=)|(<)|(>)|(\\[\\]=)|(\\[\\]\\?)|(\\[\\])|(!~)|(=~)|(!)|(~))"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "PATTERN",
-              "value": "[^\\x00-\\x40\\x5B-\\x5E\\x60-\\x60\\x7B-\\x9F][^\\x00-\\x2F\\x3A-\\x40\\x5B-\\x5E\\x60-\\x60\\x7B-\\x9F]*[=!\\?]?"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_operator"
-            },
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "\""
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\"]"
-                      },
-                      {
-                        "type": "STRING",
-                        "value": "\""
-                      }
-                    ]
-                  }
-                },
-                {
-                  "type": "STRING",
-                  "value": "\""
-                }
-              ]
-            }
-          ]
+          "type": "PATTERN",
+          "value": ":[^\\x00-\\x2F\\x3A-\\x40\\x5B-\\x5E\\x60-\\x60\\x7B-\\x9F]*[=!\\?]?"
+        },
+        {
+          "type": "PATTERN",
+          "value": ":\"(\\\\\"|[^\"])*\""
         }
       ]
     },
@@ -903,75 +869,16 @@
       ]
     },
     "local_variable": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "PATTERN",
-          "value": "[a-z_]"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "PATTERN",
-              "value": "[^\\x00-\\x40\\x5B-\\x5E\\x60-\\x60\\x7B-\\x9F][^\\x00-\\x2F\\x3A-\\x40\\x5B-\\x5E\\x60-\\x60\\x7B-\\x9F]*[=!\\?]?"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        }
-      ]
+      "type": "PATTERN",
+      "value": "[a-z_][^\\x00-\\x2F\\x3A-\\x40\\x5B-\\x5E\\x60-\\x60\\x7B-\\x9F]*[=!\\?]?"
     },
     "instance_variable": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "@"
-        },
-        {
-          "type": "PATTERN",
-          "value": "[a-z_]"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "PATTERN",
-              "value": "[^\\x00-\\x40\\x5B-\\x5E\\x60-\\x60\\x7B-\\x9F][^\\x00-\\x2F\\x3A-\\x40\\x5B-\\x5E\\x60-\\x60\\x7B-\\x9F]*[=!\\?]?"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        }
-      ]
+      "type": "PATTERN",
+      "value": "@[a-z_][^\\x00-\\x2F\\x3A-\\x40\\x5B-\\x5E\\x60-\\x60\\x7B-\\x9F]*[=!\\?]?"
     },
     "class_variable": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "@@"
-        },
-        {
-          "type": "PATTERN",
-          "value": "[a-z_]"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "PATTERN",
-              "value": "[^\\x00-\\x40\\x5B-\\x5E\\x60-\\x60\\x7B-\\x9F][^\\x00-\\x2F\\x3A-\\x40\\x5B-\\x5E\\x60-\\x60\\x7B-\\x9F]*[=!\\?]?"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        }
-      ]
+      "type": "PATTERN",
+      "value": "@@[a-z_][^\\x00-\\x2F\\x3A-\\x40\\x5B-\\x5E\\x60-\\x60\\x7B-\\x9F]*[=!\\?]?"
     },
     "constant": {
       "type": "CHOICE",
@@ -993,25 +900,8 @@
           "value": "__DIR__"
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "PATTERN",
-              "value": "[A-Z]"
-            },
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "[^\\x00-\\x40\\x5B-\\x5E\\x60-\\x60\\x7B-\\x9F][^\\x00-\\x2F\\x3A-\\x40\\x5B-\\x5E\\x60-\\x60\\x7B-\\x9F]*[=!\\?]?"
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
-            }
-          ]
+          "type": "PATTERN",
+          "value": "[A-Z][^\\x00-\\x2F\\x3A-\\x40\\x5B-\\x5E\\x60-\\x60\\x7B-\\x9F]*[=!\\?]?"
         },
         {
           "type": "SEQ",
@@ -1026,25 +916,8 @@
                     "type": "SEQ",
                     "members": [
                       {
-                        "type": "SEQ",
-                        "members": [
-                          {
-                            "type": "PATTERN",
-                            "value": "[A-Z]"
-                          },
-                          {
-                            "type": "CHOICE",
-                            "members": [
-                              {
-                                "type": "PATTERN",
-                                "value": "[^\\x00-\\x40\\x5B-\\x5E\\x60-\\x60\\x7B-\\x9F][^\\x00-\\x2F\\x3A-\\x40\\x5B-\\x5E\\x60-\\x60\\x7B-\\x9F]*[=!\\?]?"
-                              },
-                              {
-                                "type": "BLANK"
-                              }
-                            ]
-                          }
-                        ]
+                        "type": "PATTERN",
+                        "value": "[A-Z][^\\x00-\\x2F\\x3A-\\x40\\x5B-\\x5E\\x60-\\x60\\x7B-\\x9F]*[=!\\?]?"
                       },
                       {
                         "type": "STRING",
@@ -1060,25 +933,8 @@
             {
               "type": "ALIAS",
               "content": {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "PATTERN",
-                    "value": "[A-Z]"
-                  },
-                  {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "PATTERN",
-                        "value": "[^\\x00-\\x40\\x5B-\\x5E\\x60-\\x60\\x7B-\\x9F][^\\x00-\\x2F\\x3A-\\x40\\x5B-\\x5E\\x60-\\x60\\x7B-\\x9F]*[=!\\?]?"
-                      },
-                      {
-                        "type": "BLANK"
-                      }
-                    ]
-                  }
-                ]
+                "type": "PATTERN",
+                "value": "[A-Z][^\\x00-\\x2F\\x3A-\\x40\\x5B-\\x5E\\x60-\\x60\\x7B-\\x9F]*[=!\\?]?"
               },
               "named": false,
               "value": "constant"

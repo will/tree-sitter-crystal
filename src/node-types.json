@@ -811,11 +811,6 @@
     }
   },
   {
-    "type": "class_variable",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "commandLiteral",
     "named": true,
     "fields": {}
@@ -1183,11 +1178,6 @@
     }
   },
   {
-    "type": "identifier",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "include_statement",
     "named": true,
     "fields": {},
@@ -1353,17 +1343,7 @@
     }
   },
   {
-    "type": "instance_variable",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "integer",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "local_variable",
     "named": true,
     "fields": {}
   },
@@ -2755,10 +2735,6 @@
     "named": false
   },
   {
-    "type": "@@",
-    "named": false
-  },
-  {
     "type": "NamedTuple",
     "named": false
   },
@@ -2819,6 +2795,10 @@
     "named": false
   },
   {
+    "type": "class_variable",
+    "named": true
+  },
+  {
     "type": "comment",
     "named": true
   },
@@ -2851,8 +2831,20 @@
     "named": false
   },
   {
+    "type": "identifier",
+    "named": true
+  },
+  {
     "type": "include",
     "named": false
+  },
+  {
+    "type": "instance_variable",
+    "named": true
+  },
+  {
+    "type": "local_variable",
+    "named": true
   },
   {
     "type": "module",
