@@ -18,7 +18,7 @@ A WIP [tree-sitter](https://tree-sitter.github.io/) grammar for [Crystal](https:
 	- [x] array
 	- [x] hash
 	- [x] array-or-hash-index-access (`foo[0]` or `foo[:something]`)
-	- [ ] range
+	- [x] range
 	- [x] regex
 	- [x] tuple
 	- [x] namedtuple

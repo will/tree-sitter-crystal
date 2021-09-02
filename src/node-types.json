@@ -172,6 +172,10 @@
           "named": true
         },
         {
+          "type": "range",
+          "named": true
+        },
+        {
           "type": "regex",
           "named": true
         },
@@ -321,6 +325,10 @@
             "named": true
           },
           {
+            "type": "range",
+            "named": true
+          },
+          {
             "type": "regex",
             "named": true
           },
@@ -467,6 +475,10 @@
           "named": true
         },
         {
+          "type": "range",
+          "named": true
+        },
+        {
           "type": "regex",
           "named": true
         },
@@ -599,6 +611,10 @@
         },
         {
           "type": "param",
+          "named": true
+        },
+        {
+          "type": "range",
           "named": true
         },
         {
@@ -781,6 +797,10 @@
         },
         {
           "type": "nil",
+          "named": true
+        },
+        {
+          "type": "range",
           "named": true
         },
         {
@@ -1004,6 +1024,10 @@
             "named": true
           },
           {
+            "type": "range",
+            "named": true
+          },
+          {
             "type": "regex",
             "named": true
           },
@@ -1133,6 +1157,10 @@
           },
           {
             "type": "nil",
+            "named": true
+          },
+          {
+            "type": "range",
             "named": true
           },
           {
@@ -1297,6 +1325,10 @@
             "named": true
           },
           {
+            "type": "range",
+            "named": true
+          },
+          {
             "type": "regex",
             "named": true
           },
@@ -1409,6 +1441,10 @@
           },
           {
             "type": "nil",
+            "named": true
+          },
+          {
+            "type": "range",
             "named": true
           },
           {
@@ -1613,6 +1649,10 @@
           "named": true
         },
         {
+          "type": "range",
+          "named": true
+        },
+        {
           "type": "regex",
           "named": true
         },
@@ -1767,6 +1807,10 @@
           "named": true
         },
         {
+          "type": "range",
+          "named": true
+        },
+        {
           "type": "regex",
           "named": true
         },
@@ -1911,6 +1955,10 @@
           },
           {
             "type": "nil",
+            "named": true
+          },
+          {
+            "type": "range",
             "named": true
           },
           {
@@ -2111,6 +2159,10 @@
           "named": true
         },
         {
+          "type": "range",
+          "named": true
+        },
+        {
           "type": "regex",
           "named": true
         },
@@ -2165,6 +2217,72 @@
           },
           {
             "type": "instance_variable",
+            "named": true
+          },
+          {
+            "type": "local_variable",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "range",
+    "named": true,
+    "fields": {
+      "end": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "class_variable",
+            "named": true
+          },
+          {
+            "type": "constant",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "instance_variable",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "local_variable",
+            "named": true
+          }
+        ]
+      },
+      "start": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "class_variable",
+            "named": true
+          },
+          {
+            "type": "constant",
+            "named": true
+          },
+          {
+            "type": "float",
+            "named": true
+          },
+          {
+            "type": "instance_variable",
+            "named": true
+          },
+          {
+            "type": "integer",
             "named": true
           },
           {
@@ -2329,6 +2447,10 @@
           "named": true
         },
         {
+          "type": "range",
+          "named": true
+        },
+        {
           "type": "regex",
           "named": true
         },
@@ -2454,6 +2576,10 @@
         },
         {
           "type": "nil",
+          "named": true
+        },
+        {
+          "type": "range",
           "named": true
         },
         {
@@ -2668,6 +2794,14 @@
   },
   {
     "type": ".",
+    "named": false
+  },
+  {
+    "type": "..",
+    "named": false
+  },
+  {
+    "type": "...",
     "named": false
   },
   {
