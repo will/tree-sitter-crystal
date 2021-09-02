@@ -256,6 +256,27 @@ hash
 )
 
 =====
+range
+=====
+
+1..2
+1...2
+1.0..2.0
+1.0...2.0
+...2
+2...
+
+---
+(program
+  (range start: (integer) end: (integer))
+  (range start: (integer) end: (integer))
+  (range start: (float) end: (float))
+  (range start: (float) end: (float))
+  (range end: (integer))
+  (range start: (integer))
+)
+
+=====
 regex
 =====
 

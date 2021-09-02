@@ -206,8 +206,22 @@ module.exports = grammar({
       token.immediate(']')
     ),
 
-    // TODO: ranges
-
+    range: $ => {
+      const rangeBoundary = choice(
+        $._variable,
+        $.integer,
+        $.float
+      );
+      const rangeSeparator = choice('..', '...');
+      return choice(
+        // range with begin and end
+        seq(field('start', rangeBoundary), rangeSeparator, field('end', rangeBoundary)),
+        // begin-less range
+        seq(rangeSeparator, field('end', rangeBoundary)),
+        // endless range
+        seq(field('start', rangeBoundary), rangeSeparator)
+      );
+    },
     /**
 	   * @see {@link https://crystal-lang.org/reference/syntax_and_semantics/literals/regex.html}
 	   */
@@ -279,6 +293,7 @@ module.exports = grammar({
       $.array                   ,
       $.hash                    ,
       $.index_expression        ,
+      $.range                   ,
       $.regex                   ,
       $.tuple                   ,
       $.namedTupleLiteral       ,
